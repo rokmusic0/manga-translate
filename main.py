@@ -1,6 +1,8 @@
-def main():
-    print("Hello from manga-vl!")
+from paddleocr import PaddleOCRVL
 
-
-if __name__ == "__main__":
-    main()
+pipeline = PaddleOCRVL()
+output = pipeline.predict("./images/yatsuba.png")
+for res in output:
+    res.print()
+    res.save_to_json(save_path="output")
+    res.save_to_markdown(save_path="output")
