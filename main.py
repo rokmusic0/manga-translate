@@ -70,11 +70,15 @@ def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
     (The image will be included. The OCR results will be given as follows.)
     - text: "こんにちは", bbox: (100, 100, 200, 150)
     - text: "世界", bbox: (300, 100, 400, 150)
+    - text: "今日は美しい日です", bbox: (400, 150, 500, 250)
 
     Example output:
-    Hello
-    World
+    Hello.
+    World.
+    Today is a beautiful day.
     """
+
+    translations: list[list[TranslationResult]] = [[] for _ in range(len(image_paths))]
 
     for i, (ocr_result, image_path) in enumerate(zip(ocr_results, image_paths)):
         input_lines = "\n".join([str(res) for res in ocr_results])
@@ -113,8 +117,15 @@ def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
         for line in output_lines:
             print(line)
 
+        translations[i] = [
+            TranslationResult(ocr_result=res, translation=translation)
+            for res, translation in zip(ocr_result, output_lines)
+        ]
+
         # break after first image for testing
         break
+
+    return translations
 
 
 def main():
@@ -127,10 +138,11 @@ def main():
         vl_rec_api_model_name="PaddlePaddle/PaddleOCR-VL-1.5",
     )
     ocr_output = ocr_pipeline.predict(image_paths)
-
     ocr_results = parse_ocr_output(ocr_output)
-
     print(ocr_results)
+
+    translations = translate(image_paths, ocr_results)
+    print(translations)
 
 
 if __name__ == "__main__":
