@@ -1,7 +1,8 @@
-from paddleocr import PaddleOCRVL
-import openai
 import base64
 from dataclasses import dataclass
+
+import openai
+from paddleocr import PaddleOCRVL
 
 
 @dataclass
@@ -14,20 +15,16 @@ class OCRResult:
         return f'- text: "{self.text}", bbox: {self.bbox}'
 
 
+@dataclass
+class TranslationResult:
+    ocr_result: OCRResult
+    translation: str
+
+
 def image_to_base64_data_uri(file_path: str) -> str:
     with open(file_path, "rb") as img_file:
         base64_data = base64.b64encode(img_file.read()).decode("utf-8")
         return f"data:image/png;base64,{base64_data}"
-
-
-image_paths = ["./images/yatsuba.png", "./images/yatsuba.png", "./images/yatsuba.png"]
-
-ocr_pipeline = PaddleOCRVL(
-    vl_rec_backend="mlx-vlm-server",
-    vl_rec_server_url="http://localhost:8111/",
-    vl_rec_api_model_name="PaddlePaddle/PaddleOCR-VL-1.5",
-)
-ocr_output = ocr_pipeline.predict(image_paths)
 
 
 def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
@@ -54,70 +51,87 @@ def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
     return ocr_results
 
 
-ocr_results = parse_ocr_output(ocr_output)
+def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
+    client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
 
-print(ocr_results)
+    system_prompt = """
+    I want to translate a Japanese manga page into English.
+    I have already extracted the Japanese text and its bounding boxes from the manga page using SOTA OCR model.
+    I will give the OCR results, as well as the original manga page image, and want you to translate the Japanese text into English.
+    The image is included for reference, for you to be able to understand the context of the text, and to make sure the translation is accurate and natural.
 
-client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
+    You may assume the OCR results are accurate, but may not appear in the correct reading order. You should reference the image to understand the correct reading order.
+    However, the bounding boxes are accurate, so you can use them to determine the reading order of the text, or the layout of the text in the manga page. (Or not, whatever you think is best to produce the best translation.)
+    Note: the reading order and image are there only to make the translations better. You could translate each line independently, but should translate each line in the context of the whole manga page (the image and the other lines of text), to produce better translations.
 
-system_prompt = """
-I want to translate a Japanese manga page into English.
-I have already extracted the Japanese text and its bounding boxes from the manga page using SOTA OCR model.
-I will give the OCR results, as well as the original manga page image, and want you to translate the Japanese text into English.
-The image is included for reference, for you to be able to understand the context of the text, and to make sure the translation is accurate and natural.
+    The translation should be line by line (i.e. each line of Japanese should be translated into its own line of English), and the order of the lines in the output should be the same as the order of input lines (i.e. the order of the OCR results, the input order). The output should contain English translations only, one per line, and nothing else. I will parse the output programatically, so it is assumed `len(input_lines) == len(output_lines)`, and `output_lines[i]` is the translation of `input_lines[i]`.
 
-You may assume the OCR results are accurate, but may not appear in the correct reading order. You should reference the image to understand the correct reading order.
-However, the bounding boxes are accurate, so you can use them to determine the reading order of the text, or the layout of the text in the manga page. (Or not, whatever you think is best to produce the best translation.)
-Note: the reading order and image are there only to make the translations better. You could translate each line independently, but should translate each line in the context of the whole manga page (the image and the other lines of text), to produce better translations.
+    Example input:
+    (The image will be included. The OCR results will be given as follows.)
+    - text: "こんにちは", bbox: (100, 100, 200, 150)
+    - text: "世界", bbox: (300, 100, 400, 150)
 
-The translation should be line by line (i.e. each line of Japanese should be translated into its own line of English), and the order of the lines in the output should be the same as the order of input lines (i.e. the order of the OCR results, the input order). The output should contain English translations only, one per line, and nothing else. I will parse the output programatically, so it is assumed `len(input_lines) == len(output_lines)`, and `output_lines[i]` is the translation of `input_lines[i]`.
+    Example output:
+    Hello
+    World
+    """
 
-Example input:
-(The image will be included. The OCR results will be given as follows.)
-- text: "こんにちは", bbox: (100, 100, 200, 150)
-- text: "世界", bbox: (300, 100, 400, 150)
+    for i, (ocr_result, image_path) in enumerate(zip(ocr_results, image_paths)):
+        input_lines = "\n".join([str(res) for res in ocr_results])
+        image_data_uri = image_to_base64_data_uri(image_path)
 
-Example output:
-Hello
-World
-"""
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": image_data_uri, "detail": "high"},
+                    },
+                    {"type": "text", "text": input_lines},
+                ],
+            },
+        ]
 
-for i, (ocr_result, image_path) in enumerate(zip(ocr_results, image_paths)):
-    input_lines = "\n".join([str(res) for res in ocr_results])
-    image_data_uri = image_to_base64_data_uri(image_path)
+        print(60 * "=")
+        print(messages)
+        print(60 * "=")
 
-    messages = [
-        {"role": "system", "content": system_prompt},
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {"url": image_data_uri, "detail": "high"},
-                },
-                {"type": "text", "text": input_lines},
-            ],
-        },
-    ]
+        response = client.chat.completions.create(
+            model="llama",
+            messages=messages,  # ty:ignore[invalid-argument-type]
+        )
 
-    print(60 * "=")
-    print(messages)
-    print(60 * "=")
+        content = response.choices[0].message.content
+        if content is None:
+            print(f"Image {i} translation failed: no content in response")
+            continue
 
-    response = client.chat.completions.create(
-        model="qwen3.5",
-        messages=messages,  # ty:ignore[invalid-argument-type]
+        output_lines = content.strip().split("\n")
+        print(f"Image {i} translations:")
+        for line in output_lines:
+            print(line)
+
+        # break after first image for testing
+        break
+
+
+def main():
+    image_paths = ["./images/yatsuba.png"]
+    # image_paths = ["./images/yatsuba.png", "./images/yatsuba.png", "./images/yatsuba.png"]
+
+    ocr_pipeline = PaddleOCRVL(
+        vl_rec_backend="mlx-vlm-server",
+        vl_rec_server_url="http://localhost:8111/",
+        vl_rec_api_model_name="PaddlePaddle/PaddleOCR-VL-1.5",
     )
+    ocr_output = ocr_pipeline.predict(image_paths)
 
-    content = response.choices[0].message.content
-    if content is None:
-        print(f"Image {i} translation failed: no content in response")
-        continue
+    ocr_results = parse_ocr_output(ocr_output)
 
-    output_lines = content.strip().split("\n")
-    print(f"Image {i} translations:")
-    for line in output_lines:
-        print(line)
+    print(ocr_results)
 
-    # break after first image for testing
-    break
+
+if __name__ == "__main__":
+    main()
