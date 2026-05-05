@@ -81,7 +81,7 @@ def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
     translations: list[list[TranslationResult]] = [[] for _ in range(len(image_paths))]
 
     for i, (ocr_result, image_path) in enumerate(zip(ocr_results, image_paths)):
-        input_lines = "\n".join([str(res) for res in ocr_results])
+        input_lines = "\n".join([str(res) for res in ocr_result])
         image_data_uri = image_to_base64_data_uri(image_path)
 
         messages = [
