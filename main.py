@@ -1,4 +1,5 @@
 import base64
+import copy
 from dataclasses import dataclass
 
 import openai
@@ -51,6 +52,23 @@ def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
     return ocr_results
 
 
+def truncate_openai_messages(messages: list[dict]) -> list[dict]:
+    """Truncate the image data in the messages to avoid printing the whole base64 data.
+
+    This should not be used to send messages to the API, only for debugging, to avoid printing the whole base64 data in the console, as it takes a lot of space.
+    """
+    messages_copy = copy.deepcopy(messages)
+
+    for message in messages_copy:
+        content = message["content"]
+        if isinstance(content, list):
+            for item in content:
+                if isinstance(item, dict) and "image_url" in item:
+                    item["image_url"]["url"] = "[IMAGE DATA URI TRUNCATED]"
+
+    return messages_copy
+
+
 def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
     client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
 
@@ -99,7 +117,7 @@ def translate(image_paths: list[str], ocr_results: list[list[OCRResult]]):
         ]
 
         print(60 * "=")
-        print(messages)
+        print(truncate_openai_messages(messages))
         print(60 * "=")
 
         response = client.chat.completions.create(
