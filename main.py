@@ -1,9 +1,11 @@
 import argparse
 from pathlib import Path
 
+from loguru import logger
 from PIL import Image
 
 from edit_image import draw_translations, remove_ocr_regions
+from logging_config import configure_logging
 from ocr import run_ocr
 from translate import translate_images
 
@@ -15,6 +17,7 @@ def is_image_file(path: Path) -> bool:
 
 
 def collect_image_paths(inputs: list[str]) -> list[Path]:
+    logger.info("Collecting input images")
     image_paths: list[Path] = []
 
     for input_path in inputs:
@@ -24,10 +27,12 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
             raise FileNotFoundError(f"Input path does not exist: {path}")
 
         if path.is_dir():
-            image_paths.extend(
-                sorted(file for file in path.iterdir() if is_image_file(file))
-            )
+            dir_images = sorted(file for file in path.iterdir() if is_image_file(file))
+            logger.info("Found {} image(s) in directory {}", len(dir_images), path)
+            logger.debug("Directory images for {}: {}", path, dir_images)
+            image_paths.extend(dir_images)
         elif is_image_file(path):
+            logger.debug("Using input image {}", path)
             image_paths.append(path)
         else:
             raise ValueError(f"Input path is not an image-like file: {path}")
@@ -44,6 +49,8 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
     if not deduped_paths:
         raise ValueError("No image files found in the provided inputs")
 
+    logger.info("Collected {} unique image(s)", len(deduped_paths))
+    logger.debug("Final image list: {}", deduped_paths)
     return deduped_paths
 
 
@@ -68,37 +75,53 @@ def parse_args() -> argparse.Namespace:
         default="./output",
         help="Directory where output images will be written",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable debug logging",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    configure_logging(args.verbose)
+
+    logger.info("Starting manga translation pipeline")
     image_paths = collect_image_paths(args.inputs)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    logger.info("Using output directory {}", output_dir)
 
     image_path_strings = [str(path) for path in image_paths]
 
     ocr_results = run_ocr(image_path_strings)
-    print(ocr_results)
+    logger.debug("OCR results: {}", ocr_results)
 
     translations = translate_images(image_path_strings, ocr_results)
-    print(translations)
+    logger.debug("Translations: {}", translations)
 
-    for image_path, image_ocr_results, image_translations in zip(
-        image_paths, ocr_results, translations
+    for index, (image_path, image_ocr_results, image_translations) in enumerate(
+        zip(image_paths, ocr_results, translations), start=1
     ):
+        logger.info(
+            "Rendering output for image {} of {}: {}",
+            index,
+            len(image_paths),
+            image_path,
+        )
         text_removed_path, translated_path = build_output_paths(output_dir, image_path)
 
         image = Image.open(image_path)
         cleaned = remove_ocr_regions(image, image_ocr_results)
         cleaned.save(text_removed_path)
+        logger.info("Saved cleaned image: {}", text_removed_path)
 
         translated_image = draw_translations(cleaned, image_translations)
         translated_image.save(translated_path)
+        logger.info("Saved translated image: {}", translated_path)
 
-        print(f"Saved cleaned image: {text_removed_path}")
-        print(f"Saved translated image: {translated_path}")
+    logger.info("Pipeline completed successfully")
 
 
 if __name__ == "__main__":

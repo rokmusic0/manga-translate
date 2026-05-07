@@ -8,6 +8,11 @@ Translate Japanese manga into English using deep learning.
 
 Read https://www.paddleocr.ai/latest/en/version3.x/pipeline_usage/PaddleOCR-VL-Apple-Silicon.html#31-starting-the-vlm-inference-service, and prepare the environment.
 
+```bash
+uv pip install paddlepaddle==3.2.1 -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
+uv pip install -U "paddleocr[doc-parser]"
+```
+
 ### Llama.cpp setup
 
 Read https://github.com/ggml-org/llama.cpp, and install llama.cpp on your machine. Download a multimodal model from huggingface, and convert it to gguf. This model will be used to translate the text.

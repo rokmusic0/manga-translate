@@ -2,6 +2,7 @@ import base64
 import copy
 
 import openai
+from loguru import logger
 
 from models import OCRResult, TranslationResult
 
@@ -29,6 +30,7 @@ def truncate_openai_messages(messages: list[dict]) -> list[dict]:
 def translate_images(
     image_paths: list[str], ocr_results: list[list[OCRResult]]
 ) -> list[list[TranslationResult]]:
+    logger.info("Running translation on {} image(s)", len(image_paths))
     client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
 
     system_prompt = """
@@ -75,9 +77,12 @@ def translate_images(
             },
         ]
 
-        print(60 * "=")
-        print(truncate_openai_messages(messages))
-        print(60 * "=")
+        logger.info(
+            "Translating image {} of {}: {}", i + 1, len(image_paths), image_path
+        )
+        logger.debug(
+            "Translation request messages: {}", truncate_openai_messages(messages)
+        )
 
         response = client.chat.completions.create(
             model="llama",
@@ -86,22 +91,27 @@ def translate_images(
 
         content = response.choices[0].message.content
         if content is None:
-            print(f"Image {i} translation failed: no content in response")
+            logger.warning("Image {} translation failed: no content in response", i)
             continue
 
         output_lines = content.strip().split("\n")
-        print(f"Image {i} translations:")
-        for line in output_lines:
-            print(line)
+        logger.debug("Image {} translations: {}", i, output_lines)
 
         if len(output_lines) != len(ocr_result):
-            print(
-                f"Image {i} translation count mismatch: expected {len(ocr_result)}, got {len(output_lines)}"
+            logger.warning(
+                "Image {} translation count mismatch: expected {}, got {}",
+                i,
+                len(ocr_result),
+                len(output_lines),
             )
 
         translations[i] = [
             TranslationResult(ocr_result=res, translation=translation)
             for res, translation in zip(ocr_result, output_lines)
         ]
+        logger.debug(
+            "Image {}: produced {} translation(s)", i + 1, len(translations[i])
+        )
 
+    logger.info("Translation completed")
     return translations
