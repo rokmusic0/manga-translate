@@ -94,12 +94,14 @@ def translate_images(
         for line in output_lines:
             print(line)
 
+        if len(output_lines) != len(ocr_result):
+            print(
+                f"Image {i} translation count mismatch: expected {len(ocr_result)}, got {len(output_lines)}"
+            )
+
         translations[i] = [
             TranslationResult(ocr_result=res, translation=translation)
             for res, translation in zip(ocr_result, output_lines)
         ]
-
-        # break after first image for testing
-        break
 
     return translations
