@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 import openai
 from paddleocr import PaddleOCRVL
+from PIL import Image, ImageDraw
 
 
 @dataclass
@@ -50,6 +51,53 @@ def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
             ocr_results[i].append(ocr_result)
 
     return ocr_results
+
+
+def get_bbox_rectangle_coords(
+    bbox: tuple[int, int, int, int], image_size: tuple[int, int]
+) -> tuple[int, int, int, int]:
+    """Convert a bbox into clamped rectangle coordinates for drawing."""
+    x1, y1, x2, y2 = bbox
+    width, height = image_size
+
+    left = max(0, min(int(x1), int(x2)))
+    top = max(0, min(int(y1), int(y2)))
+    right = min(width, max(int(x1), int(x2)))
+    bottom = min(height, max(int(y1), int(y2)))
+
+    assert left < right, f"Invalid bbox horizontal bounds after clamping: {bbox}"
+    assert top < bottom, f"Invalid bbox vertical bounds after clamping: {bbox}"
+
+    return left, top, right, bottom
+
+
+def remove_ocr_regions(
+    image: Image.Image,
+    ocr_results: list[OCRResult],
+    fill: int | tuple[int, ...] | None = None,
+) -> Image.Image:
+    """Return a copy of `image` with each OCR bounding box painted over.
+
+    Args:
+        image: Source PIL image.
+        ocr_results: OCR detections whose ``bbox`` values are painted over.
+        fill: Fill color used to replace the OCR regions. Defaults to opaque white
+            in a format appropriate for the image mode.
+    """
+    image_without_text = image.copy()
+    draw = ImageDraw.Draw(image_without_text)
+
+    if fill is None:
+        bands = Image.getmodebands(image_without_text.mode)
+        fill = (255,) * bands if bands > 1 else 255
+
+    for result in ocr_results:
+        rectangle_coords = get_bbox_rectangle_coords(
+            result.bbox, image_without_text.size
+        )
+        draw.rectangle(rectangle_coords, fill=fill)
+
+    return image_without_text
 
 
 def truncate_openai_messages(messages: list[dict]) -> list[dict]:
@@ -161,6 +209,10 @@ def main():
 
     translations = translate(image_paths, ocr_results)
     print(translations)
+
+    image = Image.open("./images/yatsuba.png")
+    cleaned = remove_ocr_regions(image, ocr_results[0])
+    cleaned.save("./output/text_removed.png")
 
 
 if __name__ == "__main__":
