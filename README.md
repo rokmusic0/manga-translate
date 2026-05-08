@@ -11,6 +11,7 @@ Read https://www.paddleocr.ai/latest/en/version3.x/pipeline_usage/PaddleOCR-VL-A
 ```bash
 uv pip install paddlepaddle==3.2.1 -i https://www.paddlepaddle.org.cn/packages/stable/cpu/
 uv pip install -U "paddleocr[doc-parser]"
+uv pip install "mlx-vlm>=0.3.11"
 ```
 
 ### Llama.cpp setup
