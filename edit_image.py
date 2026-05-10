@@ -165,8 +165,9 @@ def fit_text_to_box(
 def draw_ocr_bboxes(
     image: Image.Image,
     ocr_results: list[OCRResult],
-    box_color: str | tuple[int, int, int] = "red",
-    text_color: str | tuple[int, int, int] = "red",
+    confidence_threshold: float | None = None,
+    included_color: str | tuple[int, int, int] = "green",
+    excluded_color: str | tuple[int, int, int] = "red",
 ) -> Image.Image:
     bbox_image = image.copy()
     draw = ImageDraw.Draw(bbox_image)
@@ -174,7 +175,12 @@ def draw_ocr_bboxes(
 
     for result in ocr_results:
         left, top, right, bottom = get_bbox_rectangle_coords(result.bbox, bbox_image.size)
-        draw.rectangle((left, top, right, bottom), outline=box_color, width=3)
+
+        color = included_color
+        if confidence_threshold is not None and result.confidence < confidence_threshold:
+            color = excluded_color
+
+        draw.rectangle((left, top, right, bottom), outline=color, width=3)
 
         label = f"{result.confidence:.3f}"
         text_left, text_top, text_right, text_bottom = draw.textbbox((0, 0), label, font=font)
@@ -190,7 +196,7 @@ def draw_ocr_bboxes(
             label_y + text_height + 2,
         )
         draw.rectangle(background_coords, fill="white")
-        draw.text((label_x, label_y), label, font=font, fill=text_color)
+        draw.text((label_x, label_y), label, font=font, fill=color)
 
     return bbox_image
 

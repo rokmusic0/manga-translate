@@ -6,7 +6,7 @@ from PIL import Image
 
 from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
 from logging_config import configure_logging
-from ocr import run_ocr
+from ocr import OCR_CONFIDENCE_THRESHOLD, extract_text_regions, run_ocr
 from translate import translate_images
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
@@ -62,7 +62,13 @@ def build_output_paths(
     bbox_path = output_dir / f"{image_path.stem}_bbox.png"
     text_removed_path = output_dir / f"{image_path.stem}_ocr_regions_removed.png"
     translated_path = output_dir / f"{image_path.stem}_translated.png"
-    return ocr_json_path, ocr_markdown_path, bbox_path, text_removed_path, translated_path
+    return (
+        ocr_json_path,
+        ocr_markdown_path,
+        bbox_path,
+        text_removed_path,
+        translated_path,
+    )
 
 
 def parse_args() -> argparse.Namespace:
@@ -107,16 +113,25 @@ def main() -> None:
     translations = translate_images(image_path_strings, ocr_results)
     logger.debug("Translations: {}", translations)
 
-    for index, (image_path, image_ocr_output, image_ocr_results, image_translations) in enumerate(
-        zip(image_paths, ocr_output, ocr_results, translations), start=1
-    ):
+    for index, (  # pyright: ignore[reportGeneralTypeIssues]
+        image_path,
+        image_ocr_output,
+        image_ocr_results,
+        image_translations,
+    ) in enumerate(zip(image_paths, ocr_output, ocr_results, translations), start=1):  # pyright: ignore[reportArgumentType]
         logger.info(
             "Rendering output for image {} of {}: {}",
             index,
             len(image_paths),
             image_path,
         )
-        ocr_json_path, ocr_markdown_path, bbox_path, text_removed_path, translated_path = build_output_paths(output_dir, image_path)
+        (
+            ocr_json_path,
+            ocr_markdown_path,
+            bbox_path,
+            text_removed_path,
+            translated_path,
+        ) = build_output_paths(output_dir, image_path)
 
         image_ocr_output.save_to_json(ocr_json_path.as_posix())
         logger.info("Saved OCR JSON: {}", ocr_json_path)
@@ -126,7 +141,12 @@ def main() -> None:
 
         image = Image.open(image_path)
 
-        bbox_image = draw_ocr_bboxes(image, image_ocr_results)
+        all_text_regions = extract_text_regions(image_ocr_output, min_confidence=None)
+        bbox_image = draw_ocr_bboxes(
+            image,
+            all_text_regions,
+            confidence_threshold=OCR_CONFIDENCE_THRESHOLD,
+        )
         bbox_image.save(bbox_path)
         logger.info("Saved bbox image: {}", bbox_path)
 

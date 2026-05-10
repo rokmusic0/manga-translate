@@ -3,6 +3,8 @@ from paddleocr import PaddleOCRVL
 
 from models import OCRResult
 
+OCR_CONFIDENCE_THRESHOLD = 0.8
+
 
 def create_ocr_pipeline() -> PaddleOCRVL:
     logger.debug("Creating OCR pipeline")
@@ -15,31 +17,40 @@ def create_ocr_pipeline() -> PaddleOCRVL:
     )
 
 
+def extract_text_regions(
+    ocr_page_output, min_confidence: float | None = OCR_CONFIDENCE_THRESHOLD
+) -> list[OCRResult]:
+    results: list[OCRResult] = []
+
+    for result_block, layout_box in zip(
+        ocr_page_output["parsing_res_list"], ocr_page_output["layout_det_res"]["boxes"]
+    ):
+        label = result_block.label
+        confidence = layout_box["score"]
+
+        if "text" not in label:
+            continue
+
+        if min_confidence is not None and confidence < min_confidence:
+            continue
+
+        results.append(
+            OCRResult(
+                text=result_block.content,
+                bbox=result_block.bbox,
+                confidence=confidence,
+            )
+        )
+
+    return results
+
+
 def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
     logger.debug("Parsing OCR output for {} image(s)", len(ocr_output))
-    ocr_results: list[list[OCRResult]] = [[] for _ in range(len(ocr_output))]
+    ocr_results = [extract_text_regions(res) for res in ocr_output]
 
-    for i, res in enumerate(ocr_output):
-        for result_block, layout_box in zip(
-            res["parsing_res_list"], res["layout_det_res"]["boxes"]
-        ):
-            label = result_block.label
-            confidence = layout_box["score"]
-
-            if "text" not in label or confidence < 0.5:
-                continue
-
-            ocr_results[i].append(
-                OCRResult(
-                    text=result_block.content,
-                    bbox=result_block.bbox,
-                    confidence=confidence,
-                )
-            )
-
-        logger.debug(
-            "Image {}: extracted {} text region(s)", i + 1, len(ocr_results[i])
-        )
+    for i, image_results in enumerate(ocr_results):
+        logger.debug("Image {}: extracted {} text region(s)", i + 1, len(image_results))
 
     logger.debug("Parsed OCR results: {}", ocr_results)
     return ocr_results
