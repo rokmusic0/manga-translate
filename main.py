@@ -60,7 +60,7 @@ def build_output_paths(
     image_output_dir = output_dir / image_path.stem
     ocr_json_path = image_output_dir / f"{image_path.stem}_ocr.json"
     ocr_markdown_path = image_output_dir / f"{image_path.stem}_ocr.md"
-    bbox_path = image_output_dir / f"{image_path.stem}_bbox.png"
+    bbox_path = image_output_dir / f"{image_path.stem}_ocr.png"
     text_removed_path = image_output_dir / f"{image_path.stem}_text_removed.png"
     translated_path = output_dir / f"{image_path.stem}.png"
     return (
