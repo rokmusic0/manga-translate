@@ -54,11 +54,15 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
     return deduped_paths
 
 
-def build_output_paths(output_dir: Path, image_path: Path) -> tuple[Path, Path, Path]:
+def build_output_paths(
+    output_dir: Path, image_path: Path
+) -> tuple[Path, Path, Path, Path, Path]:
+    ocr_json_path = output_dir / f"{image_path.stem}_ocr.json"
+    ocr_markdown_path = output_dir / f"{image_path.stem}_ocr.md"
     bbox_path = output_dir / f"{image_path.stem}_bbox.png"
     text_removed_path = output_dir / f"{image_path.stem}_ocr_regions_removed.png"
     translated_path = output_dir / f"{image_path.stem}_translated.png"
-    return bbox_path, text_removed_path, translated_path
+    return ocr_json_path, ocr_markdown_path, bbox_path, text_removed_path, translated_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -96,14 +100,15 @@ def main() -> None:
 
     image_path_strings = [str(path) for path in image_paths]
 
-    ocr_results = run_ocr(image_path_strings)
+    ocr_output, ocr_results = run_ocr(image_path_strings)
+    logger.debug("OCR raw output: {}", ocr_output)
     logger.debug("OCR results: {}", ocr_results)
 
     translations = translate_images(image_path_strings, ocr_results)
     logger.debug("Translations: {}", translations)
 
-    for index, (image_path, image_ocr_results, image_translations) in enumerate(
-        zip(image_paths, ocr_results, translations), start=1
+    for index, (image_path, image_ocr_output, image_ocr_results, image_translations) in enumerate(
+        zip(image_paths, ocr_output, ocr_results, translations), start=1
     ):
         logger.info(
             "Rendering output for image {} of {}: {}",
@@ -111,7 +116,13 @@ def main() -> None:
             len(image_paths),
             image_path,
         )
-        bbox_path, text_removed_path, translated_path = build_output_paths(output_dir, image_path)
+        ocr_json_path, ocr_markdown_path, bbox_path, text_removed_path, translated_path = build_output_paths(output_dir, image_path)
+
+        image_ocr_output.save_to_json(ocr_json_path.as_posix())
+        logger.info("Saved OCR JSON: {}", ocr_json_path)
+
+        image_ocr_output.save_to_markdown(ocr_markdown_path.as_posix())
+        logger.info("Saved OCR markdown: {}", ocr_markdown_path)
 
         image = Image.open(image_path)
 

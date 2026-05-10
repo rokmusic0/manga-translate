@@ -45,10 +45,10 @@ def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
     return ocr_results
 
 
-def run_ocr(image_paths: list[str]) -> list[list[OCRResult]]:
+def run_ocr(image_paths: list[str]) -> tuple[object, list[list[OCRResult]]]:
     logger.info("Running OCR on {} image(s)", len(image_paths))
     logger.debug("OCR input paths: {}", image_paths)
     ocr_pipeline = create_ocr_pipeline()
     ocr_output = ocr_pipeline.predict(image_paths)
     logger.info("OCR completed")
-    return parse_ocr_output(ocr_output)
+    return ocr_output, parse_ocr_output(ocr_output)
