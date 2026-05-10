@@ -162,6 +162,39 @@ def fit_text_to_box(
     return best_text, best_font, best_spacing
 
 
+def draw_ocr_bboxes(
+    image: Image.Image,
+    ocr_results: list[OCRResult],
+    box_color: str | tuple[int, int, int] = "red",
+    text_color: str | tuple[int, int, int] = "red",
+) -> Image.Image:
+    bbox_image = image.copy()
+    draw = ImageDraw.Draw(bbox_image)
+    font = get_font(14)
+
+    for result in ocr_results:
+        left, top, right, bottom = get_bbox_rectangle_coords(result.bbox, bbox_image.size)
+        draw.rectangle((left, top, right, bottom), outline=box_color, width=3)
+
+        label = f"{result.confidence:.3f}"
+        text_left, text_top, text_right, text_bottom = draw.textbbox((0, 0), label, font=font)
+        text_width = text_right - text_left
+        text_height = text_bottom - text_top
+
+        label_x = left
+        label_y = max(0, top - text_height - 6)
+        background_coords = (
+            label_x - 2,
+            label_y - 2,
+            label_x + text_width + 2,
+            label_y + text_height + 2,
+        )
+        draw.rectangle(background_coords, fill="white")
+        draw.text((label_x, label_y), label, font=font, fill=text_color)
+
+    return bbox_image
+
+
 def draw_translations(
     image: Image.Image,
     translations: list[TranslationResult],

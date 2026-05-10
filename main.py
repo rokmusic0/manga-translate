@@ -4,7 +4,7 @@ from pathlib import Path
 from loguru import logger
 from PIL import Image
 
-from edit_image import draw_translations, remove_ocr_regions
+from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
 from logging_config import configure_logging
 from ocr import run_ocr
 from translate import translate_images
@@ -54,10 +54,11 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
     return deduped_paths
 
 
-def build_output_paths(output_dir: Path, image_path: Path) -> tuple[Path, Path]:
+def build_output_paths(output_dir: Path, image_path: Path) -> tuple[Path, Path, Path]:
+    bbox_path = output_dir / f"{image_path.stem}_bbox.png"
     text_removed_path = output_dir / f"{image_path.stem}_ocr_regions_removed.png"
     translated_path = output_dir / f"{image_path.stem}_translated.png"
-    return text_removed_path, translated_path
+    return bbox_path, text_removed_path, translated_path
 
 
 def parse_args() -> argparse.Namespace:
@@ -110,9 +111,14 @@ def main() -> None:
             len(image_paths),
             image_path,
         )
-        text_removed_path, translated_path = build_output_paths(output_dir, image_path)
+        bbox_path, text_removed_path, translated_path = build_output_paths(output_dir, image_path)
 
         image = Image.open(image_path)
+
+        bbox_image = draw_ocr_bboxes(image, image_ocr_results)
+        bbox_image.save(bbox_path)
+        logger.info("Saved bbox image: {}", bbox_path)
+
         cleaned = remove_ocr_regions(image, image_ocr_results)
         cleaned.save(text_removed_path)
         logger.info("Saved cleaned image: {}", text_removed_path)
