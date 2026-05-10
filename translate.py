@@ -77,7 +77,7 @@ def translate_images(
             },
         ]
 
-        logger.info(
+        logger.debug(
             "Translating image {} of {}: {}", i + 1, len(image_paths), image_path
         )
         logger.debug(

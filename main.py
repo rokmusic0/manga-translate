@@ -56,13 +56,15 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
 
 def build_output_paths(
     output_dir: Path, image_path: Path
-) -> tuple[Path, Path, Path, Path, Path]:
-    ocr_json_path = output_dir / f"{image_path.stem}_ocr.json"
-    ocr_markdown_path = output_dir / f"{image_path.stem}_ocr.md"
-    bbox_path = output_dir / f"{image_path.stem}_bbox.png"
-    text_removed_path = output_dir / f"{image_path.stem}_ocr_regions_removed.png"
-    translated_path = output_dir / f"{image_path.stem}_translated.png"
+) -> tuple[Path, Path, Path, Path, Path, Path]:
+    image_output_dir = output_dir / image_path.stem
+    ocr_json_path = image_output_dir / f"{image_path.stem}_ocr.json"
+    ocr_markdown_path = image_output_dir / f"{image_path.stem}_ocr.md"
+    bbox_path = image_output_dir / f"{image_path.stem}_bbox.png"
+    text_removed_path = image_output_dir / f"{image_path.stem}_text_removed.png"
+    translated_path = output_dir / f"{image_path.stem}.png"
     return (
+        image_output_dir,
         ocr_json_path,
         ocr_markdown_path,
         bbox_path,
@@ -119,25 +121,21 @@ def main() -> None:
         image_ocr_results,
         image_translations,
     ) in enumerate(zip(image_paths, ocr_output, ocr_results, translations), start=1):  # pyright: ignore[reportArgumentType]
-        logger.info(
-            "Rendering output for image {} of {}: {}",
-            index,
-            len(image_paths),
-            image_path,
-        )
         (
+            image_output_dir,
             ocr_json_path,
             ocr_markdown_path,
             bbox_path,
             text_removed_path,
             translated_path,
         ) = build_output_paths(output_dir, image_path)
+        image_output_dir.mkdir(parents=True, exist_ok=True)
 
         image_ocr_output.save_to_json(ocr_json_path.as_posix())
-        logger.info("Saved OCR JSON: {}", ocr_json_path)
+        logger.debug("Saved OCR JSON: {}", ocr_json_path)
 
         image_ocr_output.save_to_markdown(ocr_markdown_path.as_posix())
-        logger.info("Saved OCR markdown: {}", ocr_markdown_path)
+        logger.debug("Saved OCR markdown: {}", ocr_markdown_path)
 
         image = Image.open(image_path)
 
@@ -148,15 +146,21 @@ def main() -> None:
             confidence_threshold=OCR_CONFIDENCE_THRESHOLD,
         )
         bbox_image.save(bbox_path)
-        logger.info("Saved bbox image: {}", bbox_path)
+        logger.debug("Saved bbox image: {}", bbox_path)
 
         cleaned = remove_ocr_regions(image, image_ocr_results)
         cleaned.save(text_removed_path)
-        logger.info("Saved cleaned image: {}", text_removed_path)
+        logger.debug("Saved cleaned image: {}", text_removed_path)
 
         translated_image = draw_translations(cleaned, image_translations)
         translated_image.save(translated_path)
-        logger.info("Saved translated image: {}", translated_path)
+        logger.info(
+            "Processed image {} of {}: {} -> {}",
+            index,
+            len(image_paths),
+            image_path,
+            translated_path,
+        )
 
     logger.info("Pipeline completed successfully")
 
