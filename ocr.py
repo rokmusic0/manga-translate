@@ -26,7 +26,7 @@ def parse_ocr_output(ocr_output) -> list[list[OCRResult]]:
             label = result_block.label
             confidence = layout_box["score"]
 
-            if "text" not in label or confidence < 0.8:
+            if "text" not in label or confidence < 0.5:
                 continue
 
             ocr_results[i].append(
