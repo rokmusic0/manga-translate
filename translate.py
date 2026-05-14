@@ -64,7 +64,8 @@ def translate_one_image(
 
     response = client.chat.completions.create(
         model="llama",
-        messages=messages,  # ty:ignore[invalid-argument-type]
+        messages=messages,  # ty:ignore[invalid-argument-type]  # pyright: ignore[reportArgumentType]
+        temperature=0.0,
         max_tokens=MAX_COMPLETION_TOKENS,
     )
 

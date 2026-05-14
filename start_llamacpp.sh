@@ -4,6 +4,7 @@
 llama-server \
   --model "$LLAMA_MODEL_PATH" \
   --mmproj "$LLAMA_MMPROJ_PATH" \
+  --temperature 0.0 \
   --alias llama \
   --ctx-size 65536 \
   --parallel 32 \
