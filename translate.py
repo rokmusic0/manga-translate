@@ -1,4 +1,3 @@
-import base64
 import copy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -9,12 +8,6 @@ from models import OCRResult, TranslationResult
 
 MAX_TRANSLATION_CONCURRENCY = 32
 MAX_COMPLETION_TOKENS = 1024
-
-
-def image_to_base64_data_uri(file_path: str) -> str:
-    with open(file_path, "rb") as img_file:
-        base64_data = base64.b64encode(img_file.read()).decode("utf-8")
-        return f"data:image/png;base64,{base64_data}"
 
 
 def truncate_openai_messages(messages: list[dict]) -> list[dict]:
@@ -41,25 +34,13 @@ def translate_one_image(
     client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
 
     input_lines = "\n".join(str(res) for res in ocr_result)
-    image_data_uri = image_to_base64_data_uri(image_path)
 
     messages = [
         {"role": "system", "content": system_prompt},
-        {
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {"url": image_data_uri, "detail": "high"},
-                },
-                {"type": "text", "text": input_lines},
-            ],
-        },
+        {"role": "user", "content": input_lines},
     ]
 
-    logger.debug(
-        "Translating image {} of {}: {}", index + 1, total_images, image_path
-    )
+    logger.debug("Translating image {} of {}: {}", index + 1, total_images, image_path)
     logger.debug("Translation request messages: {}", truncate_openai_messages(messages))
 
     response = client.chat.completions.create(
@@ -71,9 +52,7 @@ def translate_one_image(
 
     content = response.choices[0].message.content
     if content is None:
-        logger.warning(
-            "Image {} translation failed: no content in response", index + 1
-        )
+        logger.warning("Image {} translation failed: no content in response", index + 1)
         return index, []
 
     output_lines = content.strip().splitlines()
@@ -91,9 +70,7 @@ def translate_one_image(
         TranslationResult(ocr_result=res, translation=translation)
         for res, translation in zip(ocr_result, output_lines)
     ]
-    logger.debug(
-        "Image {}: produced {} translation(s)", index + 1, len(translations)
-    )
+    logger.debug("Image {}: produced {} translation(s)", index + 1, len(translations))
     return index, translations
 
 
@@ -103,21 +80,20 @@ def translate_images(
     logger.info("Running translation on {} image(s)", len(image_paths))
 
     system_prompt = """
-    Translate the Japanese text into natural English. The user will provide you with a manga image and the extracted text to translate.
-    Translate only the text the user provides. If you detect any text in the image that the user did not send, ignore it.
+    Translate the Japanese text into natural English.
     Each translation must be on its own line, in the same order as the input. The number of input and output lines must match.
 
     Example input:
-    - text: “そんな傷だらけになってまで、どうして戦おうとするんだ”
-    - text: “守りたいものがあるって決めたからだよ”
-    - text: “命を落としたら元も子もないだろ”
-    - text: “それでも、何もしないまま後悔するのは嫌なんだ”
+    そんな傷だらけになってまで、どうして戦おうとするんだ
+    守りたいものがあるって決めたからだよ
+    命を落としたら元も子もないだろ
+    それでも、何もしないまま後悔するのは嫌なんだ
 
     Example output:
-    Why do you keep fighting when you’re this badly hurt?
+    Why do you keep fighting when you're this badly hurt?
     Because I decided there are things worth protecting.
     If you die, none of it will matter.
-    Even so, I’d rather risk everything than live with regret.
+    Even so, I'd rather risk everything than live with regret.
     """
 
     translations: list[list[TranslationResult]] = [[] for _ in range(len(image_paths))]
