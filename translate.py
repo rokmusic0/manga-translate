@@ -34,22 +34,14 @@ def translate_images(
     client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
 
     system_prompt = """
-    I want to translate a Japanese manga page into English.
-    I have already extracted the Japanese text and its bounding boxes from the manga page using SOTA OCR model.
-    I will give the OCR results, as well as the original manga page image, and want you to translate the Japanese text into English.
-    The image is included for reference, for you to be able to understand the context of the text, and to make sure the translation is accurate and natural.
-
-    You may assume the OCR results are accurate, but may not appear in the correct reading order. You should reference the image to understand the correct reading order.
-    However, the bounding boxes are accurate, so you can use them to determine the reading order of the text, or the layout of the text in the manga page. (Or not, whatever you think is best to produce the best translation.)
-    Note: the reading order and image are there only to make the translations better. You could translate each line independently, but should translate each line in the context of the whole manga page (the image and the other lines of text), to produce better translations.
-
-    The translation should be line by line (i.e. each line of Japanese should be translated into its own line of English), and the order of the lines in the output should be the same as the order of input lines (i.e. the order of the OCR results, the input order). The output should contain English translations only, one per line, and nothing else. I will parse the output programatically, so it is assumed `len(input_lines) == len(output_lines)`, and `output_lines[i]` is the translation of `input_lines[i]`.
+    Translate the Japanese text on the manga page into English to sound as natural as possible.
+    The user will provide you with the original manga page image, as well as the OCR results.
+    Each translation should be on a separate line and in the same order as the OCR results.
 
     Example input:
-    (The image will be included. The OCR results will be given as follows.)
-    - text: "こんにちは", bbox: (100, 100, 200, 150)
-    - text: "世界", bbox: (300, 100, 400, 150)
-    - text: "今日は美しい日です", bbox: (400, 150, 500, 250)
+    - text: "こんにちは"
+    - text: "世界"
+    - text: "今日は美しい日です"
 
     Example output:
     Hello.

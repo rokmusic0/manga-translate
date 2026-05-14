@@ -10,7 +10,7 @@ class OCRResult:
     confidence: float
 
     def __str__(self) -> str:
-        return f'- text: "{self.text}", bbox: {self.bbox}'
+        return f'- text: "{self.text}"'
 
 
 @dataclass
