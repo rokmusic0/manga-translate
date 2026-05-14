@@ -102,19 +102,21 @@ def translate_images(
     logger.info("Running translation on {} image(s)", len(image_paths))
 
     system_prompt = """
-    Translate the Japanese text on the manga page into English to sound as natural as possible.
-    The user will provide you with the original manga page image, as well as the OCR results.
-    Each translation should be on a separate line and in the same order as the OCR results.
+    Translate the Japanese text into natural English. The user will provide you with a manga image and the extracted text to translate.
+    Translate only the text the user provides. If you detect any text in the image that the user did not send, ignore it.
+    Each translation must be on its own line, in the same order as the input. The number of input and output lines must match.
 
     Example input:
-    - text: "こんにちは"
-    - text: "世界"
-    - text: "今日は美しい日です"
+    - text: “そんな傷だらけになってまで、どうして戦おうとするんだ”
+    - text: “守りたいものがあるって決めたからだよ”
+    - text: “命を落としたら元も子もないだろ”
+    - text: “それでも、何もしないまま後悔するのは嫌なんだ”
 
     Example output:
-    Hello.
-    World.
-    Today is a beautiful day.
+    Why do you keep fighting when you’re this badly hurt?
+    Because I decided there are things worth protecting.
+    If you die, none of it will matter.
+    Even so, I’d rather risk everything than live with regret.
     """
 
     translations: list[list[TranslationResult]] = [[] for _ in range(len(image_paths))]
