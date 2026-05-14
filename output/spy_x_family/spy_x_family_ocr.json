@@ -1,0 +1,1193 @@
+{
+    "input_path": "images/spy_x_family.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2536,
+    "height": 1994,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "vertical_text",
+            "block_content": "だがアングラな施設ほど素性のあやふやな子が多い",
+            "block_bbox": [
+                2380,
+                56,
+                2475,
+                411
+            ],
+            "block_id": 0,
+            "block_order": 1,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    2380.0,
+                    56.0
+                ],
+                [
+                    2475.0,
+                    56.0
+                ],
+                [
+                    2475.0,
+                    411.0
+                ],
+                [
+                    2380.0,
+                    411.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "経歴を改ざ都合がいい",
+            "block_bbox": [
+                2024,
+                57,
+                2122,
+                210
+            ],
+            "block_id": 1,
+            "block_order": 2,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    2024.0,
+                    57.0
+                ],
+                [
+                    2122.0,
+                    57.0
+                ],
+                [
+                    2122.0,
+                    210.0
+                ],
+                [
+                    2024.0,
+                    210.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "家族を形成する今回のミッション",
+            "block_bbox": [
+                1504,
+                78,
+                1594,
+                300
+            ],
+            "block_id": 2,
+            "block_order": 3,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    1504.0,
+                    78.0
+                ],
+                [
+                    1594.0,
+                    78.0
+                ],
+                [
+                    1594.0,
+                    300.0
+                ],
+                [
+                    1504.0,
+                    300.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "はなくそっけたれ",
+            "block_bbox": [
+                1885,
+                383,
+                1931,
+                474
+            ],
+            "block_id": 3,
+            "block_order": 4,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    1885.0,
+                    383.0
+                ],
+                [
+                    1931.0,
+                    383.0
+                ],
+                [
+                    1931.0,
+                    474.0
+                ],
+                [
+                    1885.0,
+                    474.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "さしあたって子どもさえいれば何とかなる",
+            "block_bbox": [
+                1393,
+                345,
+                1510,
+                569
+            ],
+            "block_id": 4,
+            "block_order": 5,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    1393.0,
+                    345.0
+                ],
+                [
+                    1510.0,
+                    345.0
+                ],
+                [
+                    1510.0,
+                    569.0
+                ],
+                [
+                    1393.0,
+                    569.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "おいアーニャ！",
+            "block_bbox": [
+                857,
+                192,
+                1012,
+                520
+            ],
+            "block_id": 5,
+            "block_order": 6,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    857.0,
+                    192.0
+                ],
+                [
+                    1012.0,
+                    192.0
+                ],
+                [
+                    1012.0,
+                    520.0
+                ],
+                [
+                    857.0,
+                    520.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "本当ならすべて一人でこなしたいが",
+            "block_bbox": [
+                2248,
+                848,
+                2414,
+                1071
+            ],
+            "block_id": 6,
+            "block_order": 7,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    2248.0,
+                    848.0
+                ],
+                [
+                    2414.0,
+                    848.0
+                ],
+                [
+                    2414.0,
+                    1071.0
+                ],
+                [
+                    2248.0,
+                    1071.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "こどもはにがてだ",
+            "block_bbox": [
+                1780,
+                934,
+                1847,
+                1062
+            ],
+            "block_id": 7,
+            "block_order": 8,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    1780.0,
+                    934.0
+                ],
+                [
+                    1847.0,
+                    934.0
+                ],
+                [
+                    1847.0,
+                    1062.0
+                ],
+                [
+                    1780.0,
+                    1062.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "……",
+            "block_bbox": [
+                665,
+                825,
+                695,
+                936
+            ],
+            "block_id": 8,
+            "block_order": 9,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    675.0,
+                    825.0
+                ],
+                [
+                    694.0,
+                    825.0
+                ],
+                [
+                    694.0,
+                    905.0
+                ],
+                [
+                    675.0,
+                    905.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "西国一のスパイと謳われたこの黄昏も子どもにまでは化けられんからな…",
+            "block_bbox": [
+                1477,
+                1030,
+                1667,
+                1311
+            ],
+            "block_id": 9,
+            "block_order": 10,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    1477.0,
+                    1030.0
+                ],
+                [
+                    1667.0,
+                    1030.0
+                ],
+                [
+                    1667.0,
+                    1311.0
+                ],
+                [
+                    1477.0,
+                    1311.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ウチで一番賢い",
+            "block_bbox": [
+                1113,
+                1054,
+                1156,
+                1268
+            ],
+            "block_id": 10,
+            "block_order": 11,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    1113.0,
+                    1054.0
+                ],
+                [
+                    1156.0,
+                    1054.0
+                ],
+                [
+                    1156.0,
+                    1268.0
+                ],
+                [
+                    1113.0,
+                    1268.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "無口だがまあ…いい子さ",
+            "block_bbox": [
+                958,
+                1076,
+                1056,
+                1293
+            ],
+            "block_id": 11,
+            "block_order": 12,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    958.0,
+                    1076.0
+                ],
+                [
+                    1056.0,
+                    1076.0
+                ],
+                [
+                    1056.0,
+                    1293.0
+                ],
+                [
+                    958.0,
+                    1293.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "千千千",
+            "block_bbox": [
+                1477,
+                1445,
+                1514,
+                1534
+            ],
+            "block_id": 12,
+            "block_order": 13,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    1477.0,
+                    1445.0
+                ],
+                [
+                    1514.0,
+                    1445.0
+                ],
+                [
+                    1514.0,
+                    1534.0
+                ],
+                [
+                    1477.0,
+                    1534.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ああ できれば読み書きができる子を探しているのですが",
+            "block_bbox": [
+                2222,
+                1643,
+                2435,
+                1834
+            ],
+            "block_id": 13,
+            "block_order": 14,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    2222.0,
+                    1643.0
+                ],
+                [
+                    2435.0,
+                    1643.0
+                ],
+                [
+                    2435.0,
+                    1834.0
+                ],
+                [
+                    2222.0,
+                    1834.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "あーだったら…",
+            "block_bbox": [
+                1433,
+                1674,
+                1517,
+                1858
+            ],
+            "block_id": 14,
+            "block_order": 15,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    1433.0,
+                    1674.0
+                ],
+                [
+                    1517.0,
+                    1674.0
+                ],
+                [
+                    1517.0,
+                    1858.0
+                ],
+                [
+                    1433.0,
+                    1858.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ブキミでいけすかんガキだからな",
+            "block_bbox": [
+                665,
+                1528,
+                778,
+                1743
+            ],
+            "block_id": 15,
+            "block_order": 16,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    665.0,
+                    1528.0
+                ],
+                [
+                    778.0,
+                    1528.0
+                ],
+                [
+                    778.0,
+                    1743.0
+                ],
+                [
+                    665.0,
+                    1743.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "……",
+            "block_bbox": [
+                115,
+                1481,
+                144,
+                1572
+            ],
+            "block_id": 16,
+            "block_order": 17,
+            "group_id": 16,
+            "block_polygon_points": [
+                [
+                    115.0,
+                    1481.0
+                ],
+                [
+                    143.0,
+                    1481.0
+                ],
+                [
+                    143.0,
+                    1551.0
+                ],
+                [
+                    115.0,
+                    1551.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "とっとともらわれてくれりゃ願ったりだ",
+            "block_bbox": [
+                469,
+                1625,
+                590,
+                1903
+            ],
+            "block_id": 17,
+            "block_order": 18,
+            "group_id": 17,
+            "block_polygon_points": [
+                [
+                    469.0,
+                    1625.0
+                ],
+                [
+                    590.0,
+                    1625.0
+                ],
+                [
+                    590.0,
+                    1903.0
+                ],
+                [
+                    469.0,
+                    1903.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ほら挨拶せんか",
+            "block_bbox": [
+                71,
+                1695,
+                153,
+                1847
+            ],
+            "block_id": 18,
+            "block_order": 19,
+            "group_id": 18,
+            "block_polygon_points": [
+                [
+                    71.0,
+                    1695.0
+                ],
+                [
+                    153.0,
+                    1695.0
+                ],
+                [
+                    153.0,
+                    1847.0
+                ],
+                [
+                    71.0,
+                    1847.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.43647727370262146,
+                "coordinate": [
+                    2380,
+                    56,
+                    2475,
+                    411
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        2380.0,
+                        56.0
+                    ],
+                    [
+                        2475.0,
+                        56.0
+                    ],
+                    [
+                        2475.0,
+                        411.0
+                    ],
+                    [
+                        2380.0,
+                        411.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8869816064834595,
+                "coordinate": [
+                    2024,
+                    57,
+                    2122,
+                    210
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        2024.0,
+                        57.0
+                    ],
+                    [
+                        2122.0,
+                        57.0
+                    ],
+                    [
+                        2122.0,
+                        210.0
+                    ],
+                    [
+                        2024.0,
+                        210.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9178369045257568,
+                "coordinate": [
+                    1504,
+                    78,
+                    1594,
+                    300
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        1504.0,
+                        78.0
+                    ],
+                    [
+                        1594.0,
+                        78.0
+                    ],
+                    [
+                        1594.0,
+                        300.0
+                    ],
+                    [
+                        1504.0,
+                        300.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.30585357546806335,
+                "coordinate": [
+                    1885,
+                    383,
+                    1931,
+                    474
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        1885.0,
+                        383.0
+                    ],
+                    [
+                        1931.0,
+                        383.0
+                    ],
+                    [
+                        1931.0,
+                        474.0
+                    ],
+                    [
+                        1885.0,
+                        474.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.904492974281311,
+                "coordinate": [
+                    1393,
+                    345,
+                    1510,
+                    569
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        1393.0,
+                        345.0
+                    ],
+                    [
+                        1510.0,
+                        345.0
+                    ],
+                    [
+                        1510.0,
+                        569.0
+                    ],
+                    [
+                        1393.0,
+                        569.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8462373614311218,
+                "coordinate": [
+                    857,
+                    192,
+                    1012,
+                    520
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        857.0,
+                        192.0
+                    ],
+                    [
+                        1012.0,
+                        192.0
+                    ],
+                    [
+                        1012.0,
+                        520.0
+                    ],
+                    [
+                        857.0,
+                        520.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9277223944664001,
+                "coordinate": [
+                    2248,
+                    848,
+                    2414,
+                    1071
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        2248.0,
+                        848.0
+                    ],
+                    [
+                        2414.0,
+                        848.0
+                    ],
+                    [
+                        2414.0,
+                        1071.0
+                    ],
+                    [
+                        2248.0,
+                        1071.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.5341970324516296,
+                "coordinate": [
+                    1780,
+                    934,
+                    1847,
+                    1062
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        1780.0,
+                        934.0
+                    ],
+                    [
+                        1847.0,
+                        934.0
+                    ],
+                    [
+                        1847.0,
+                        1062.0
+                    ],
+                    [
+                        1780.0,
+                        1062.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.5123898386955261,
+                "coordinate": [
+                    665,
+                    825,
+                    695,
+                    936
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        675.0,
+                        825.0
+                    ],
+                    [
+                        694.0,
+                        825.0
+                    ],
+                    [
+                        694.0,
+                        905.0
+                    ],
+                    [
+                        675.0,
+                        905.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9117460250854492,
+                "coordinate": [
+                    1477,
+                    1030,
+                    1667,
+                    1311
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        1477.0,
+                        1030.0
+                    ],
+                    [
+                        1667.0,
+                        1030.0
+                    ],
+                    [
+                        1667.0,
+                        1311.0
+                    ],
+                    [
+                        1477.0,
+                        1311.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.4398335814476013,
+                "coordinate": [
+                    1113,
+                    1054,
+                    1156,
+                    1268
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        1113.0,
+                        1054.0
+                    ],
+                    [
+                        1156.0,
+                        1054.0
+                    ],
+                    [
+                        1156.0,
+                        1268.0
+                    ],
+                    [
+                        1113.0,
+                        1268.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.590674877166748,
+                "coordinate": [
+                    958,
+                    1076,
+                    1056,
+                    1293
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        958.0,
+                        1076.0
+                    ],
+                    [
+                        1056.0,
+                        1076.0
+                    ],
+                    [
+                        1056.0,
+                        1293.0
+                    ],
+                    [
+                        958.0,
+                        1293.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.3672471046447754,
+                "coordinate": [
+                    1477,
+                    1445,
+                    1514,
+                    1534
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        1477.0,
+                        1445.0
+                    ],
+                    [
+                        1514.0,
+                        1445.0
+                    ],
+                    [
+                        1514.0,
+                        1534.0
+                    ],
+                    [
+                        1477.0,
+                        1534.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9270771741867065,
+                "coordinate": [
+                    2222,
+                    1643,
+                    2435,
+                    1834
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        2222.0,
+                        1643.0
+                    ],
+                    [
+                        2435.0,
+                        1643.0
+                    ],
+                    [
+                        2435.0,
+                        1834.0
+                    ],
+                    [
+                        2222.0,
+                        1834.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8728433847427368,
+                "coordinate": [
+                    1433,
+                    1674,
+                    1517,
+                    1858
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        1433.0,
+                        1674.0
+                    ],
+                    [
+                        1517.0,
+                        1674.0
+                    ],
+                    [
+                        1517.0,
+                        1858.0
+                    ],
+                    [
+                        1433.0,
+                        1858.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8960369229316711,
+                "coordinate": [
+                    665,
+                    1528,
+                    778,
+                    1743
+                ],
+                "order": 16,
+                "polygon_points": [
+                    [
+                        665.0,
+                        1528.0
+                    ],
+                    [
+                        778.0,
+                        1528.0
+                    ],
+                    [
+                        778.0,
+                        1743.0
+                    ],
+                    [
+                        665.0,
+                        1743.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.42454755306243896,
+                "coordinate": [
+                    115,
+                    1481,
+                    144,
+                    1572
+                ],
+                "order": 17,
+                "polygon_points": [
+                    [
+                        115.0,
+                        1481.0
+                    ],
+                    [
+                        143.0,
+                        1481.0
+                    ],
+                    [
+                        143.0,
+                        1551.0
+                    ],
+                    [
+                        115.0,
+                        1551.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8886602520942688,
+                "coordinate": [
+                    469,
+                    1625,
+                    590,
+                    1903
+                ],
+                "order": 18,
+                "polygon_points": [
+                    [
+                        469.0,
+                        1625.0
+                    ],
+                    [
+                        590.0,
+                        1625.0
+                    ],
+                    [
+                        590.0,
+                        1903.0
+                    ],
+                    [
+                        469.0,
+                        1903.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9254248738288879,
+                "coordinate": [
+                    71,
+                    1695,
+                    153,
+                    1847
+                ],
+                "order": 19,
+                "polygon_points": [
+                    [
+                        71.0,
+                        1695.0
+                    ],
+                    [
+                        153.0,
+                        1695.0
+                    ],
+                    [
+                        153.0,
+                        1847.0
+                    ],
+                    [
+                        71.0,
+                        1847.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

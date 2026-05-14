@@ -1,0 +1,1376 @@
+{
+    "input_path": "images/attack_on_titan.png",
+    "page_index": null,
+    "page_count": null,
+    "width": 2152,
+    "height": 1556,
+    "model_settings": {
+        "use_doc_preprocessor": false,
+        "use_layout_detection": true,
+        "use_chart_recognition": false,
+        "use_seal_recognition": false,
+        "use_ocr_for_image_block": false,
+        "format_block_content": false,
+        "merge_layout_blocks": true,
+        "markdown_ignore_labels": [
+            "number",
+            "footnote",
+            "header",
+            "header_image",
+            "footer",
+            "footer_image",
+            "aside_text"
+        ],
+        "return_layout_polygon_points": true
+    },
+    "parsing_res_list": [
+        {
+            "block_label": "vertical_text",
+            "block_content": "5",
+            "block_bbox": [
+                2118,
+                152,
+                2151,
+                230
+            ],
+            "block_id": 0,
+            "block_order": 1,
+            "group_id": 0,
+            "block_polygon_points": [
+                [
+                    2118.0,
+                    152.0
+                ],
+                [
+                    2151.0,
+                    152.0
+                ],
+                [
+                    2151.0,
+                    230.0
+                ],
+                [
+                    2118.0,
+                    230.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "どうした異端者",
+            "block_bbox": [
+                1609,
+                134,
+                1672,
+                228
+            ],
+            "block_id": 1,
+            "block_order": 2,
+            "group_id": 1,
+            "block_polygon_points": [
+                [
+                    1609.0,
+                    134.0
+                ],
+                [
+                    1672.0,
+                    134.0
+                ],
+                [
+                    1672.0,
+                    228.0
+                ],
+                [
+                    1609.0,
+                    228.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "悔しかったら殴り返してみろよ！",
+            "block_bbox": [
+                1209,
+                143,
+                1309,
+                284
+            ],
+            "block_id": 2,
+            "block_order": 3,
+            "group_id": 2,
+            "block_polygon_points": [
+                [
+                    1209.0,
+                    143.0
+                ],
+                [
+                    1309.0,
+                    143.0
+                ],
+                [
+                    1309.0,
+                    284.0
+                ],
+                [
+                    1209.0,
+                    284.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "エレンだ‼あの野郎今日こそぶちのめすぞ‼",
+            "block_bbox": [
+                502,
+                125,
+                707,
+                342
+            ],
+            "block_id": 3,
+            "block_order": 4,
+            "group_id": 3,
+            "block_polygon_points": [
+                [
+                    502.0,
+                    125.0
+                ],
+                [
+                    707.0,
+                    125.0
+                ],
+                [
+                    707.0,
+                    342.0
+                ],
+                [
+                    502.0,
+                    342.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "何だと！？",
+            "block_bbox": [
+                1759,
+                414,
+                1793,
+                510
+            ],
+            "block_id": 4,
+            "block_order": 5,
+            "group_id": 4,
+            "block_polygon_points": [
+                [
+                    1759.0,
+                    414.0
+                ],
+                [
+                    1793.0,
+                    414.0
+                ],
+                [
+                    1793.0,
+                    510.0
+                ],
+                [
+                    1759.0,
+                    510.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "僕が言ったことを正しいと認めているから…",
+            "block_bbox": [
+                1499,
+                449,
+                1596,
+                639
+            ],
+            "block_id": 5,
+            "block_order": 6,
+            "group_id": 5,
+            "block_polygon_points": [
+                [
+                    1499.0,
+                    449.0
+                ],
+                [
+                    1596.0,
+                    449.0
+                ],
+                [
+                    1596.0,
+                    639.0
+                ],
+                [
+                    1499.0,
+                    639.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "そ…そんなことするもんか！それじゃお前らと同レベルだ！！",
+            "block_bbox": [
+                2009,
+                397,
+                2102,
+                641
+            ],
+            "block_id": 6,
+            "block_order": 7,
+            "group_id": 6,
+            "block_polygon_points": [
+                [
+                    2009.0,
+                    397.0
+                ],
+                [
+                    2102.0,
+                    397.0
+                ],
+                [
+                    2102.0,
+                    641.0
+                ],
+                [
+                    2009.0,
+                    641.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "んっ!?",
+            "block_bbox": [
+                131,
+                252,
+                159,
+                320
+            ],
+            "block_id": 7,
+            "block_order": 8,
+            "group_id": 7,
+            "block_polygon_points": [
+                [
+                    131.0,
+                    252.0
+                ],
+                [
+                    159.0,
+                    252.0
+                ],
+                [
+                    159.0,
+                    320.0
+                ],
+                [
+                    131.0,
+                    320.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "言い返せなくて殴ることしか出来ないんだろ？",
+            "block_bbox": [
+                1172,
+                437,
+                1266,
+                625
+            ],
+            "block_id": 8,
+            "block_order": 9,
+            "group_id": 8,
+            "block_polygon_points": [
+                [
+                    1172.0,
+                    437.0
+                ],
+                [
+                    1266.0,
+                    437.0
+                ],
+                [
+                    1266.0,
+                    625.0
+                ],
+                [
+                    1172.0,
+                    625.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "あッ!!?",
+            "block_bbox": [
+                580,
+                530,
+                637,
+                677
+            ],
+            "block_id": 9,
+            "block_order": 10,
+            "group_id": 9,
+            "block_polygon_points": [
+                [
+                    580.0,
+                    530.0
+                ],
+                [
+                    637.0,
+                    530.0
+                ],
+                [
+                    637.0,
+                    677.0
+                ],
+                [
+                    580.0,
+                    677.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "だ…駄目だミカサがいるぞ‼",
+            "block_bbox": [
+                135,
+                443,
+                267,
+                608
+            ],
+            "block_id": 10,
+            "block_order": 11,
+            "group_id": 10,
+            "block_polygon_points": [
+                [
+                    135.0,
+                    443.0
+                ],
+                [
+                    267.0,
+                    443.0
+                ],
+                [
+                    267.0,
+                    608.0
+                ],
+                [
+                    135.0,
+                    608.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "そ…それは！僕に降参したってことじゃないのか！？",
+            "block_bbox": [
+                1871,
+                729,
+                1994,
+                1023
+            ],
+            "block_id": 11,
+            "block_order": 12,
+            "group_id": 11,
+            "block_polygon_points": [
+                [
+                    1871.0,
+                    729.0
+                ],
+                [
+                    1994.0,
+                    729.0
+                ],
+                [
+                    1994.0,
+                    1023.0
+                ],
+                [
+                    1871.0,
+                    1023.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "う……うるせぇぞ\n屁理屈野郎!!",
+            "block_bbox": [
+                1515,
+                772,
+                1607,
+                1068
+            ],
+            "block_id": 12,
+            "block_order": 13,
+            "group_id": 12,
+            "block_polygon_points": [
+                [
+                    1515.0,
+                    772.0
+                ],
+                [
+                    1607.0,
+                    772.0
+                ],
+                [
+                    1607.0,
+                    1068.0
+                ],
+                [
+                    1515.0,
+                    1068.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "やめろ‼",
+            "block_bbox": [
+                1188,
+                761,
+                1227,
+                906
+            ],
+            "block_id": 13,
+            "block_order": 14,
+            "group_id": 13,
+            "block_polygon_points": [
+                [
+                    1188.0,
+                    761.0
+                ],
+                [
+                    1227.0,
+                    761.0
+                ],
+                [
+                    1227.0,
+                    906.0
+                ],
+                [
+                    1188.0,
+                    906.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "何やってんだお前ら‼",
+            "block_bbox": [
+                1347,
+                1064,
+                1432,
+                1262
+            ],
+            "block_id": 14,
+            "block_order": 15,
+            "group_id": 14,
+            "block_polygon_points": [
+                [
+                    1347.0,
+                    1064.0
+                ],
+                [
+                    1432.0,
+                    1064.0
+                ],
+                [
+                    1432.0,
+                    1262.0
+                ],
+                [
+                    1347.0,
+                    1262.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "おお…あいつら…\n…オレを見て\n逃げやがった！",
+            "block_bbox": [
+                878,
+                923,
+                997,
+                1151
+            ],
+            "block_id": 15,
+            "block_order": 16,
+            "group_id": 15,
+            "block_polygon_points": [
+                [
+                    878.0,
+                    923.0
+                ],
+                [
+                    997.0,
+                    923.0
+                ],
+                [
+                    997.0,
+                    1151.0
+                ],
+                [
+                    878.0,
+                    1151.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "イ…イヤ",
+            "block_bbox": [
+                662,
+                932,
+                691,
+                1024
+            ],
+            "block_id": 16,
+            "block_order": 17,
+            "group_id": 16,
+            "block_polygon_points": [
+                [
+                    662.0,
+                    932.0
+                ],
+                [
+                    691.0,
+                    932.0
+                ],
+                [
+                    691.0,
+                    1024.0
+                ],
+                [
+                    662.0,
+                    1024.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ミカサを見て逃げたんだろ…",
+            "block_bbox": [
+                421,
+                944,
+                510,
+                1074
+            ],
+            "block_id": 17,
+            "block_order": 18,
+            "group_id": 17,
+            "block_polygon_points": [
+                [
+                    421.0,
+                    944.0
+                ],
+                [
+                    510.0,
+                    944.0
+                ],
+                [
+                    510.0,
+                    1074.0
+                ],
+                [
+                    421.0,
+                    1074.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "オイ！大丈夫かアルミン？",
+            "block_bbox": [
+                287,
+                926,
+                367,
+                1032
+            ],
+            "block_id": 18,
+            "block_order": 19,
+            "group_id": 18,
+            "block_polygon_points": [
+                [
+                    287.0,
+                    926.0
+                ],
+                [
+                    367.0,
+                    926.0
+                ],
+                [
+                    367.0,
+                    1032.0
+                ],
+                [
+                    287.0,
+                    1032.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "イテテ…",
+            "block_bbox": [
+                375,
+                1075,
+                402,
+                1163
+            ],
+            "block_id": 19,
+            "block_order": 20,
+            "group_id": 19,
+            "block_polygon_points": [
+                [
+                    375.0,
+                    1075.0
+                ],
+                [
+                    402.0,
+                    1075.0
+                ],
+                [
+                    402.0,
+                    1163.0
+                ],
+                [
+                    375.0,
+                    1163.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ひ…一人で立てるよ",
+            "block_bbox": [
+                356,
+                1239,
+                394,
+                1451
+            ],
+            "block_id": 20,
+            "block_order": 21,
+            "group_id": 20,
+            "block_polygon_points": [
+                [
+                    356.0,
+                    1239.0
+                ],
+                [
+                    394.0,
+                    1239.0
+                ],
+                [
+                    394.0,
+                    1451.0
+                ],
+                [
+                    356.0,
+                    1451.0
+                ]
+            ]
+        },
+        {
+            "block_label": "vertical_text",
+            "block_content": "ん？そうか…？",
+            "block_bbox": [
+                73,
+                1281,
+                138,
+                1425
+            ],
+            "block_id": 21,
+            "block_order": 22,
+            "group_id": 21,
+            "block_polygon_points": [
+                [
+                    73.0,
+                    1281.0
+                ],
+                [
+                    138.0,
+                    1281.0
+                ],
+                [
+                    138.0,
+                    1425.0
+                ],
+                [
+                    73.0,
+                    1425.0
+                ]
+            ]
+        }
+    ],
+    "layout_det_res": {
+        "input_path": null,
+        "page_index": null,
+        "boxes": [
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.30821463465690613,
+                "coordinate": [
+                    2118,
+                    152,
+                    2151,
+                    230
+                ],
+                "order": 1,
+                "polygon_points": [
+                    [
+                        2118.0,
+                        152.0
+                    ],
+                    [
+                        2151.0,
+                        152.0
+                    ],
+                    [
+                        2151.0,
+                        230.0
+                    ],
+                    [
+                        2118.0,
+                        230.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8767275214195251,
+                "coordinate": [
+                    1609,
+                    134,
+                    1672,
+                    228
+                ],
+                "order": 2,
+                "polygon_points": [
+                    [
+                        1609.0,
+                        134.0
+                    ],
+                    [
+                        1672.0,
+                        134.0
+                    ],
+                    [
+                        1672.0,
+                        228.0
+                    ],
+                    [
+                        1609.0,
+                        228.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9174313545227051,
+                "coordinate": [
+                    1209,
+                    143,
+                    1309,
+                    284
+                ],
+                "order": 3,
+                "polygon_points": [
+                    [
+                        1209.0,
+                        143.0
+                    ],
+                    [
+                        1309.0,
+                        143.0
+                    ],
+                    [
+                        1309.0,
+                        284.0
+                    ],
+                    [
+                        1209.0,
+                        284.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.6620989441871643,
+                "coordinate": [
+                    502,
+                    125,
+                    707,
+                    342
+                ],
+                "order": 4,
+                "polygon_points": [
+                    [
+                        502.0,
+                        125.0
+                    ],
+                    [
+                        707.0,
+                        125.0
+                    ],
+                    [
+                        707.0,
+                        342.0
+                    ],
+                    [
+                        502.0,
+                        342.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.7823936939239502,
+                "coordinate": [
+                    1759,
+                    414,
+                    1793,
+                    510
+                ],
+                "order": 5,
+                "polygon_points": [
+                    [
+                        1759.0,
+                        414.0
+                    ],
+                    [
+                        1793.0,
+                        414.0
+                    ],
+                    [
+                        1793.0,
+                        510.0
+                    ],
+                    [
+                        1759.0,
+                        510.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9157543182373047,
+                "coordinate": [
+                    1499,
+                    449,
+                    1596,
+                    639
+                ],
+                "order": 6,
+                "polygon_points": [
+                    [
+                        1499.0,
+                        449.0
+                    ],
+                    [
+                        1596.0,
+                        449.0
+                    ],
+                    [
+                        1596.0,
+                        639.0
+                    ],
+                    [
+                        1499.0,
+                        639.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9022026658058167,
+                "coordinate": [
+                    2009,
+                    397,
+                    2102,
+                    641
+                ],
+                "order": 7,
+                "polygon_points": [
+                    [
+                        2009.0,
+                        397.0
+                    ],
+                    [
+                        2102.0,
+                        397.0
+                    ],
+                    [
+                        2102.0,
+                        641.0
+                    ],
+                    [
+                        2009.0,
+                        641.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.763504147529602,
+                "coordinate": [
+                    131,
+                    252,
+                    159,
+                    320
+                ],
+                "order": 8,
+                "polygon_points": [
+                    [
+                        131.0,
+                        252.0
+                    ],
+                    [
+                        159.0,
+                        252.0
+                    ],
+                    [
+                        159.0,
+                        320.0
+                    ],
+                    [
+                        131.0,
+                        320.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8993647694587708,
+                "coordinate": [
+                    1172,
+                    437,
+                    1266,
+                    625
+                ],
+                "order": 9,
+                "polygon_points": [
+                    [
+                        1172.0,
+                        437.0
+                    ],
+                    [
+                        1266.0,
+                        437.0
+                    ],
+                    [
+                        1266.0,
+                        625.0
+                    ],
+                    [
+                        1172.0,
+                        625.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8396068811416626,
+                "coordinate": [
+                    580,
+                    530,
+                    637,
+                    677
+                ],
+                "order": 10,
+                "polygon_points": [
+                    [
+                        580.0,
+                        530.0
+                    ],
+                    [
+                        637.0,
+                        530.0
+                    ],
+                    [
+                        637.0,
+                        677.0
+                    ],
+                    [
+                        580.0,
+                        677.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9099151492118835,
+                "coordinate": [
+                    135,
+                    443,
+                    267,
+                    608
+                ],
+                "order": 11,
+                "polygon_points": [
+                    [
+                        135.0,
+                        443.0
+                    ],
+                    [
+                        267.0,
+                        443.0
+                    ],
+                    [
+                        267.0,
+                        608.0
+                    ],
+                    [
+                        135.0,
+                        608.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.91630619764328,
+                "coordinate": [
+                    1871,
+                    729,
+                    1994,
+                    1023
+                ],
+                "order": 12,
+                "polygon_points": [
+                    [
+                        1871.0,
+                        729.0
+                    ],
+                    [
+                        1994.0,
+                        729.0
+                    ],
+                    [
+                        1994.0,
+                        1023.0
+                    ],
+                    [
+                        1871.0,
+                        1023.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8685688972473145,
+                "coordinate": [
+                    1515,
+                    772,
+                    1607,
+                    1068
+                ],
+                "order": 13,
+                "polygon_points": [
+                    [
+                        1515.0,
+                        772.0
+                    ],
+                    [
+                        1607.0,
+                        772.0
+                    ],
+                    [
+                        1607.0,
+                        1068.0
+                    ],
+                    [
+                        1515.0,
+                        1068.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.7210226655006409,
+                "coordinate": [
+                    1188,
+                    761,
+                    1227,
+                    906
+                ],
+                "order": 14,
+                "polygon_points": [
+                    [
+                        1188.0,
+                        761.0
+                    ],
+                    [
+                        1227.0,
+                        761.0
+                    ],
+                    [
+                        1227.0,
+                        906.0
+                    ],
+                    [
+                        1188.0,
+                        906.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8498886227607727,
+                "coordinate": [
+                    1347,
+                    1064,
+                    1432,
+                    1262
+                ],
+                "order": 15,
+                "polygon_points": [
+                    [
+                        1347.0,
+                        1064.0
+                    ],
+                    [
+                        1432.0,
+                        1064.0
+                    ],
+                    [
+                        1432.0,
+                        1262.0
+                    ],
+                    [
+                        1347.0,
+                        1262.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9242130517959595,
+                "coordinate": [
+                    878,
+                    923,
+                    997,
+                    1151
+                ],
+                "order": 16,
+                "polygon_points": [
+                    [
+                        878.0,
+                        923.0
+                    ],
+                    [
+                        997.0,
+                        923.0
+                    ],
+                    [
+                        997.0,
+                        1151.0
+                    ],
+                    [
+                        878.0,
+                        1151.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.5091434121131897,
+                "coordinate": [
+                    662,
+                    932,
+                    691,
+                    1024
+                ],
+                "order": 17,
+                "polygon_points": [
+                    [
+                        662.0,
+                        932.0
+                    ],
+                    [
+                        691.0,
+                        932.0
+                    ],
+                    [
+                        691.0,
+                        1024.0
+                    ],
+                    [
+                        662.0,
+                        1024.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8108240962028503,
+                "coordinate": [
+                    421,
+                    944,
+                    510,
+                    1074
+                ],
+                "order": 18,
+                "polygon_points": [
+                    [
+                        421.0,
+                        944.0
+                    ],
+                    [
+                        510.0,
+                        944.0
+                    ],
+                    [
+                        510.0,
+                        1074.0
+                    ],
+                    [
+                        421.0,
+                        1074.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.8290560245513916,
+                "coordinate": [
+                    287,
+                    926,
+                    367,
+                    1032
+                ],
+                "order": 19,
+                "polygon_points": [
+                    [
+                        287.0,
+                        926.0
+                    ],
+                    [
+                        367.0,
+                        926.0
+                    ],
+                    [
+                        367.0,
+                        1032.0
+                    ],
+                    [
+                        287.0,
+                        1032.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.5768057107925415,
+                "coordinate": [
+                    375,
+                    1075,
+                    402,
+                    1163
+                ],
+                "order": 20,
+                "polygon_points": [
+                    [
+                        375.0,
+                        1075.0
+                    ],
+                    [
+                        402.0,
+                        1075.0
+                    ],
+                    [
+                        402.0,
+                        1163.0
+                    ],
+                    [
+                        375.0,
+                        1163.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.7443268895149231,
+                "coordinate": [
+                    356,
+                    1239,
+                    394,
+                    1451
+                ],
+                "order": 21,
+                "polygon_points": [
+                    [
+                        356.0,
+                        1239.0
+                    ],
+                    [
+                        394.0,
+                        1239.0
+                    ],
+                    [
+                        394.0,
+                        1451.0
+                    ],
+                    [
+                        356.0,
+                        1451.0
+                    ]
+                ]
+            },
+            {
+                "cls_id": 23,
+                "label": "vertical_text",
+                "score": 0.9175826907157898,
+                "coordinate": [
+                    73,
+                    1281,
+                    138,
+                    1425
+                ],
+                "order": 22,
+                "polygon_points": [
+                    [
+                        73.0,
+                        1281.0
+                    ],
+                    [
+                        138.0,
+                        1281.0
+                    ],
+                    [
+                        138.0,
+                        1425.0
+                    ],
+                    [
+                        73.0,
+                        1425.0
+                    ]
+                ]
+            }
+        ]
+    }
+}

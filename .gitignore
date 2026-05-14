@@ -215,5 +215,4 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-output
-.DS_Store
+**/.DS_Store
