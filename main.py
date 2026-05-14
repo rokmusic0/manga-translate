@@ -6,6 +6,7 @@ from PIL import Image
 
 from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
 from logging_config import configure_logging
+from models import OCRResult, TranslationResult
 from ocr import OCR_CONFIDENCE_THRESHOLD, extract_text_regions, run_ocr
 from translate import translate_images
 
@@ -56,10 +57,11 @@ def collect_image_paths(inputs: list[str]) -> list[Path]:
 
 def build_output_paths(
     output_dir: Path, image_path: Path
-) -> tuple[Path, Path, Path, Path, Path, Path]:
+) -> tuple[Path, Path, Path, Path, Path, Path, Path]:
     image_output_dir = output_dir / image_path.stem
     ocr_json_path = image_output_dir / f"{image_path.stem}_ocr.json"
     ocr_markdown_path = image_output_dir / f"{image_path.stem}_ocr.md"
+    translation_markdown_path = image_output_dir / f"{image_path.stem}_translation.md"
     bbox_path = image_output_dir / f"{image_path.stem}_ocr.png"
     text_removed_path = image_output_dir / f"{image_path.stem}_text_removed.png"
     translated_path = output_dir / f"{image_path.stem}.png"
@@ -67,10 +69,23 @@ def build_output_paths(
         image_output_dir,
         ocr_json_path,
         ocr_markdown_path,
+        translation_markdown_path,
         bbox_path,
         text_removed_path,
         translated_path,
     )
+
+
+def save_translations_markdown(
+    path: Path,
+    ocr_results: list[OCRResult],
+    translations: list[TranslationResult],
+) -> None:
+    content = "\n\n".join(
+        f"{ocr_result.text}\n{translations[i].translation if i < len(translations) else ''}"
+        for i, ocr_result in enumerate(ocr_results)
+    )
+    path.write_text(content, encoding="utf-8")
 
 
 def parse_args() -> argparse.Namespace:
@@ -125,6 +140,7 @@ def main() -> None:
             image_output_dir,
             ocr_json_path,
             ocr_markdown_path,
+            translation_markdown_path,
             bbox_path,
             text_removed_path,
             translated_path,
@@ -136,6 +152,13 @@ def main() -> None:
 
         image_ocr_output.save_to_markdown(ocr_markdown_path.as_posix())
         logger.debug("Saved OCR markdown: {}", ocr_markdown_path)
+
+        save_translations_markdown(
+            translation_markdown_path,
+            image_ocr_results,
+            image_translations,
+        )
+        logger.debug("Saved translation markdown: {}", translation_markdown_path)
 
         image = Image.open(image_path)
 
