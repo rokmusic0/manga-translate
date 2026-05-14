@@ -3,7 +3,7 @@ from paddleocr import PaddleOCRVL
 
 from models import OCRResult
 
-OCR_CONFIDENCE_THRESHOLD = 0.5
+OCR_CONFIDENCE_THRESHOLD = 0.2
 
 
 def create_ocr_pipeline() -> PaddleOCRVL:
