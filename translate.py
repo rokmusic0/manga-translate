@@ -1,4 +1,5 @@
 import copy
+import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import openai
@@ -8,6 +9,8 @@ from models import OCRResult, TranslationResult
 
 MAX_TRANSLATION_CONCURRENCY = 32
 MAX_COMPLETION_TOKENS = 1024
+LLAMA_BASE_URL = os.environ.get("LLAMA_BASE_URL", "http://localhost:8080/v1")
+LLAMA_MODEL_NAME = os.environ.get("LLAMA_MODEL_NAME", "llama")
 
 
 def truncate_openai_messages(messages: list[dict]) -> list[dict]:
@@ -31,7 +34,7 @@ def translate_one_image(
     total_images: int,
     system_prompt: str,
 ) -> tuple[int, list[TranslationResult]]:
-    client = openai.OpenAI(api_key="llama.cpp", base_url="http://localhost:8080/v1")
+    client = openai.OpenAI(api_key="llama.cpp", base_url=LLAMA_BASE_URL)
 
     input_lines = "\n".join(str(res) for res in ocr_result)
 
@@ -44,7 +47,7 @@ def translate_one_image(
     logger.debug("Translation request messages: {}", truncate_openai_messages(messages))
 
     response = client.chat.completions.create(
-        model="llama",
+        model=LLAMA_MODEL_NAME,
         messages=messages,  # ty:ignore[invalid-argument-type]  # pyright: ignore[reportArgumentType]
         temperature=0.0,
         max_tokens=MAX_COMPLETION_TOKENS,

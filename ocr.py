@@ -1,16 +1,19 @@
+import os
+
 from loguru import logger
 from paddleocr import PaddleOCRVL
 
 from models import OCRResult
 
 OCR_CONFIDENCE_THRESHOLD = 0.2
+OCR_VL_SERVER_URL = os.environ.get("OCR_VL_SERVER_URL", "http://localhost:8111/")
 
 
 def create_ocr_pipeline() -> PaddleOCRVL:
     logger.debug("Creating OCR pipeline")
     return PaddleOCRVL(
         vl_rec_backend="mlx-vlm-server",
-        vl_rec_server_url="http://localhost:8111/",
+        vl_rec_server_url=OCR_VL_SERVER_URL,
         vl_rec_api_model_name="PaddlePaddle/PaddleOCR-VL-1.5",
         vl_rec_max_concurrency=1,
         use_queues=False,
