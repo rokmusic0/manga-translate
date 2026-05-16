@@ -1,5 +1,6 @@
 import argparse
 from pathlib import Path
+import dotenv
 
 from loguru import logger
 from PIL import Image
@@ -9,6 +10,10 @@ from logging_config import configure_logging
 from models import OCRResult, TranslationResult
 from ocr import OCR_CONFIDENCE_THRESHOLD, extract_text_regions, run_ocr
 from translate import translate_images
+
+
+dotenv.load_dotenv()
+
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg"}
 

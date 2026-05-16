@@ -8,6 +8,7 @@ dependencies = [
     "loguru>=0.7.3",
     "openai>=2.36.0",
     "pillow>=12.2.0",
+    "python-dotenv>=1.2.2",
     "torch>=2.11.0",
 ]
 
