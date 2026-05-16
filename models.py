@@ -10,7 +10,8 @@ class OCRResult:
     confidence: float
 
     def __str__(self) -> str:
-        return f'- text: "{self.text}"'
+        text = self.text.replace("\n", "")
+        return text
 
 
 @dataclass
