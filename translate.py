@@ -82,16 +82,19 @@ def translate_images(
     system_prompt = """
     Translate the Japanese text into natural English.
     Each translation must be on its own line, in the same order as the input. The number of input and output lines must match.
+    This includes translating any sound effects or onomatopoeia into English as well, to the best of your ability, even lines like "...".
 
     Example input:
     そんな傷だらけになってまで、どうして戦おうとするんだ
     守りたいものがあるって決めたからだよ
+    ...
     命を落としたら元も子もないだろ
     それでも、何もしないまま後悔するのは嫌なんだ
 
     Example output:
     Why do you keep fighting when you're this badly hurt?
     Because I decided there are things worth protecting.
+    ...
     If you die, none of it will matter.
     Even so, I'd rather risk everything than live with regret.
     """
