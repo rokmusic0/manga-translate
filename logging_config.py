@@ -1,6 +1,7 @@
 import logging
 import sys
 import warnings
+from pathlib import Path
 
 from loguru import logger
 
@@ -22,3 +23,25 @@ def configure_logging(verbose: bool = False) -> None:
     logging.captureWarnings(True)
     logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
     warnings.simplefilter("default")
+
+
+def add_file_log_handlers(log_dir: Path, verbose: bool = False) -> tuple[Path, Path]:
+    log_dir.mkdir(parents=True, exist_ok=True)
+    full_log_path = log_dir / "pipeline.log"
+    problem_log_path = log_dir / "problem_images.log"
+
+    logger.add(
+        full_log_path,
+        level="DEBUG",
+        format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}",
+        encoding="utf-8",
+    )
+    logger.add(
+        problem_log_path,
+        level="DEBUG",
+        format="{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}",
+        filter=lambda record: bool(record["extra"].get("problem_image")),
+        encoding="utf-8",
+    )
+
+    return full_log_path, problem_log_path

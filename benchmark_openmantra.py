@@ -21,7 +21,7 @@ from benchmarking import (
     translation_result_to_dict,
 )
 from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
-from logging_config import configure_logging
+from logging_config import add_file_log_handlers, configure_logging
 from ocr import OCR_CONFIDENCE_THRESHOLD, OCR_VL_SERVER_URL, extract_text_regions, run_ocr
 from translate import LLAMA_BASE_URL, translate_images
 
@@ -117,6 +117,9 @@ def main() -> None:
 
     run_dir = output_root / run_name
     run_dir.mkdir(parents=True, exist_ok=False)
+    full_log_path, problem_log_path = add_file_log_handlers(run_dir, args.verbose)
+    logger.info("Full log file: {}", full_log_path)
+    logger.info("Problem image log file: {}", problem_log_path)
 
     logger.info("Loading OpenMantra pages from {}", dataset_dir)
     dataset_load_start = time.perf_counter()

@@ -7,6 +7,8 @@ from loguru import logger
 
 from models import OCRResult, TranslationResult
 
+problem_logger = logger.bind(problem_image=True)
+
 MAX_TRANSLATION_CONCURRENCY = 32
 MAX_COMPLETION_TOKENS = 1024
 LLAMA_BASE_URL = os.environ.get("LLAMA_BASE_URL", "http://localhost:8080/v1")
@@ -35,7 +37,9 @@ def translate_one_image(
     system_prompt: str,
 ) -> tuple[int, list[TranslationResult]]:
     if not ocr_result:
-        logger.warning("Image {} has no OCR results, skipping translation", index + 1)
+        message = f"Image {index + 1} has no OCR results, skipping translation: {image_path}"
+        logger.warning(message)
+        problem_logger.warning(message)
         return index, []
 
     client = openai.OpenAI(api_key="llama.cpp", base_url=LLAMA_BASE_URL)
@@ -59,8 +63,12 @@ def translate_one_image(
 
     content = response.choices[0].message.content
     if content is None:
-        logger.warning("Image {} translation failed: no content in response", index + 1)
+        message = f"Image {index + 1} translation failed: no content in response: {image_path}"
+        logger.warning(message)
+        problem_logger.warning(message)
         return index, []
+
+    logger.debug("Image {} raw model output: {!r}", index + 1, content)
 
     output_lines = [
         line for line in content.strip().splitlines() if line and line.strip() != "---"
@@ -73,6 +81,16 @@ def translate_one_image(
             index + 1,
             len(ocr_result),
             len(output_lines),
+        )
+        problem_logger.warning(
+            "Problematic image {}: path={} expected_translations={} parsed_translations={} ocr_texts={} raw_model_output={!r} parsed_translations_list={}",
+            index + 1,
+            image_path,
+            len(ocr_result),
+            len(output_lines),
+            [res.text for res in ocr_result],
+            content,
+            output_lines,
         )
 
     translations = [

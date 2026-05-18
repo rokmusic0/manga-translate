@@ -6,7 +6,7 @@ from loguru import logger
 from PIL import Image
 
 from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
-from logging_config import configure_logging
+from logging_config import add_file_log_handlers, configure_logging
 from models import OCRResult, TranslationResult
 from ocr import OCR_CONFIDENCE_THRESHOLD, extract_text_regions, run_ocr
 from translate import translate_images
@@ -124,7 +124,10 @@ def main() -> None:
     image_paths = collect_image_paths(args.inputs)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    full_log_path, problem_log_path = add_file_log_handlers(output_dir, args.verbose)
     logger.info("Using output directory {}", output_dir)
+    logger.info("Full log file: {}", full_log_path)
+    logger.info("Problem image log file: {}", problem_log_path)
 
     image_path_strings = [str(path) for path in image_paths]
 
