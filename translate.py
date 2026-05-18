@@ -40,7 +40,7 @@ def translate_one_image(
 
     client = openai.OpenAI(api_key="llama.cpp", base_url=LLAMA_BASE_URL)
 
-    input_lines = "\n".join(str(res) for res in ocr_result)
+    input_lines = "\n---\n".join(str(res) for res in ocr_result)
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -62,7 +62,9 @@ def translate_one_image(
         logger.warning("Image {} translation failed: no content in response", index + 1)
         return index, []
 
-    output_lines = content.strip().splitlines()
+    output_lines = [
+        line for line in content.strip().splitlines() if line and line.strip() != "---"
+    ]
     logger.debug("Image {} translations: {}", index + 1, output_lines)
 
     if len(output_lines) != len(ocr_result):
@@ -88,21 +90,29 @@ def translate_images(
 
     system_prompt = """
     Translate the Japanese text into natural English.
-    Each translation must be on its own line, in the same order as the input. The number of input and output lines must match.
+    Use "---" to separate translations. There must be the same number of translations as the number of Japanese text regions, and they must be in the same order.
     This includes translating any sound effects or onomatopoeia into English as well, to the best of your ability, even lines like "...".
 
     Example input:
     そんな傷だらけになってまで、どうして戦おうとするんだ
+    ---
     守りたいものがあるって決めたからだよ
+    ---
     ...
+    ---
     命を落としたら元も子もないだろ
+    ---
     それでも、何もしないまま後悔するのは嫌なんだ
 
     Example output:
     Why do you keep fighting when you're this badly hurt?
+    ---
     Because I decided there are things worth protecting.
+    ---
     ...
+    ---
     If you die, none of it will matter.
+    ---
     Even so, I'd rather risk everything than live with regret.
     """
 
