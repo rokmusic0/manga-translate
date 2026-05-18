@@ -34,6 +34,10 @@ def translate_one_image(
     total_images: int,
     system_prompt: str,
 ) -> tuple[int, list[TranslationResult]]:
+    if not ocr_result:
+        logger.warning("Image {} has no OCR results, skipping translation", index + 1)
+        return index, []
+
     client = openai.OpenAI(api_key="llama.cpp", base_url=LLAMA_BASE_URL)
 
     input_lines = "\n".join(str(res) for res in ocr_result)
