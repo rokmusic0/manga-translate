@@ -1,4 +1,4 @@
-\documentclass[9pt]{extarticle}
+\documentclass[10pt]{article}
 \usepackage[margin=0.7in]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
@@ -32,6 +32,8 @@ Automatic translation of mangas is a difficult vision task. A useful system must
 Historically, this problem has usually been approached as a pipeline: text detection, OCR, machine translation, then some form of inpainting and redrawing. Recent research has moved toward data driven approaches and more multimodal solutions that use full page context rather than isolated text strings. For this project, I chose a modular local pipeline because it is easier to debug, easier to benchmark stage by stage, and practical to run without cloud services (it is also free and accessible!).
 
 For anyone who reads manga, the motivation is clear: there are many great series that are not officially licensed in English, and fan translations are often the only way to read them. A good automatic system could make these stories more accessible to a wider audience, especially in cases when not even fan translations exist. Another reason is language learning: a user can translate a manga into the language they are learning, or contrast the translation with the original if learning Japanese. For the research community, manga translation could be an interesting test case for multimodal use, OCR in the wild, and context aware machine translation.
+
+The project is available on GitHub at \url{https://github.com/pizdoponi/manga-vl}.
 
 \section{Pipeline overview}
 The system has four stages: \textbf{(1)} detect and transcribe Japanese text regions with a multimodal (vision) OCR model PaddleOCR-VL, \textbf{(2)} translate the extracted text to English with a local LLM Gemma 4 served through \texttt{llama.cpp}, \textbf{(3)} remove the original text regions, and \textbf{(4)} redraw the English text inside those regions. Figure~\ref{fig:aotthreeway} compares three final translated versions of the same \emph{Attack on Titan} page, while Figure~\ref{fig:pipeline} shows the internal stages of my pipeline on that page.
@@ -128,7 +130,7 @@ Further quality of life improvements could include image inpainting using genera
 \begin{enumerate}[leftmargin=1.5em,itemsep=0pt,topsep=2pt]
     \item C. Morishita et al., ``Towards Fully Automated Manga Translation,'' AAAI, 2021.
     \item PaddleOCR-VL documentation and model release, PaddlePaddle, 2024--2025.
-    \item Gemma 4 documentation and model release, HuggingFace (https://huggingface.co/google/gemma-4-E4B-it), 2024--2025.
+    \item Gemma 4 documentation and model release, HuggingFace, 2024--2025.
     \item J. Sachdeva et al., ``The Manga Whisperer,'' CVPR, 2024.
 \end{enumerate}
 
