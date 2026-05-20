@@ -30,6 +30,37 @@ def safe_divide(numerator: float, denominator: float) -> float:
     return numerator / denominator
 
 
+
+def infer_translation_diagnostics(page: dict) -> dict[str, int | str | None]:
+    diagnostics = page.get("translation_diagnostics")
+    if diagnostics is not None:
+        return diagnostics
+
+    expected_count = page.get("prediction_count", len(page.get("predictions", [])))
+    actual_count = len(page.get("translations", []))
+
+    if expected_count == 0:
+        status = "skipped_no_ocr"
+        detail = "No OCR text regions were detected for this image."
+    elif actual_count < expected_count:
+        status = "count_mismatch_missing_outputs"
+        detail = "Model returned fewer translations than OCR text regions."
+    elif actual_count > expected_count:
+        status = "count_mismatch_extra_outputs"
+        detail = "Model returned more translations than OCR text regions."
+    else:
+        status = "ok"
+        detail = None
+
+    return {
+        "expected_count": expected_count,
+        "actual_count": actual_count,
+        "status": status,
+        "detail": detail,
+    }
+
+
+
 def main() -> None:
     args = parse_args()
     run_dir = Path(args.run_dir)
@@ -53,6 +84,12 @@ def main() -> None:
     translation_references: list[str] = []
 
     per_page_detection: list[dict[str, float | int | str]] = []
+    translation_status_counts: dict[str, int] = {}
+    translation_issue_pages: list[dict[str, int | str | None]] = []
+    expected_translation_region_count = 0
+    produced_translation_region_count = 0
+    missing_translation_region_count = 0
+    extra_translation_region_count = 0
 
     for page in pages:
         predicted_boxes = [tuple(pred["bbox"]) for pred in page["predictions"]]
@@ -81,6 +118,32 @@ def main() -> None:
                 "false_negatives": page_fn,
             }
         )
+
+        translation_diagnostics = infer_translation_diagnostics(page)
+        translation_status = str(translation_diagnostics["status"])
+        translation_status_counts[translation_status] = (
+            translation_status_counts.get(translation_status, 0) + 1
+        )
+        expected_count = int(translation_diagnostics["expected_count"])
+        actual_count = int(translation_diagnostics["actual_count"])
+        expected_translation_region_count += expected_count
+        produced_translation_region_count += actual_count
+        missing_translation_region_count += max(expected_count - actual_count, 0)
+        extra_translation_region_count += max(actual_count - expected_count, 0)
+
+        if translation_status != "ok":
+            translation_issue_pages.append(
+                {
+                    "page_slug": page["page_slug"],
+                    "book_title": page["book_title"],
+                    "page_index": page["page_index"],
+                    "image_path": page["image_path"],
+                    "status": translation_status,
+                    "detail": translation_diagnostics.get("detail"),
+                    "expected_count": expected_count,
+                    "actual_count": actual_count,
+                }
+            )
 
         for pred_index, gt_index, _ in matches:
             prediction = page["predictions"][pred_index]
@@ -137,6 +200,13 @@ def main() -> None:
             "chrf": chrf,
             "coverage": translation_coverage,
             "evaluated_region_count": len(translation_predictions),
+            "expected_region_count": expected_translation_region_count,
+            "produced_region_count": produced_translation_region_count,
+            "missing_region_count": missing_translation_region_count,
+            "extra_region_count": extra_translation_region_count,
+            "problem_page_count": len(translation_issue_pages),
+            "ok_page_count": translation_status_counts.get("ok", 0),
+            "status_counts": translation_status_counts,
         },
         "timings": {
             **stage_timings,
@@ -154,6 +224,7 @@ def main() -> None:
             ),
         },
         "per_page_detection": per_page_detection,
+        "translation_issues": translation_issue_pages,
     }
 
     analysis_json_path = run_dir / "analysis.json"
@@ -190,6 +261,11 @@ def main() -> None:
             f"- BLEU: `{summary['translation']['bleu']:.2f}`",
             f"- chrF: `{summary['translation']['chrf']:.2f}`",
             f"- Coverage: `{summary['translation']['coverage']:.4f}`",
+            f"- Produced translation regions: `{summary['translation']['produced_region_count']}` / `{summary['translation']['expected_region_count']}`",
+            f"- Missing translation regions: `{summary['translation']['missing_region_count']}`",
+            f"- Extra translation regions: `{summary['translation']['extra_region_count']}`",
+            f"- Pages with non-ok translation diagnostics: `{summary['translation']['problem_page_count']}`",
+            f"- Translation status counts: `{summary['translation']['status_counts']}`",
             "",
             "## Timings",
             "",

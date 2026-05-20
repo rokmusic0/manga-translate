@@ -5,7 +5,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import openai
 from loguru import logger
 
-from models import OCRResult, TranslationResult
+from models import OCRResult, TranslationDiagnostics, TranslationResult
 
 problem_logger = logger.bind(problem_image=True)
 
@@ -29,18 +29,76 @@ def truncate_openai_messages(messages: list[dict]) -> list[dict]:
     return messages_copy
 
 
+def build_translation_diagnostics(
+    expected_count: int,
+    actual_count: int,
+    *,
+    content: str | None,
+) -> TranslationDiagnostics:
+    if expected_count == 0:
+        return TranslationDiagnostics(
+            expected_count=expected_count,
+            actual_count=actual_count,
+            status="skipped_no_ocr",
+            detail="No OCR text regions were detected for this image.",
+        )
+
+    if content is None:
+        return TranslationDiagnostics(
+            expected_count=expected_count,
+            actual_count=actual_count,
+            status="failed_no_content",
+            detail="Model response did not contain message content.",
+        )
+
+    if not content.strip():
+        return TranslationDiagnostics(
+            expected_count=expected_count,
+            actual_count=actual_count,
+            status="failed_empty_output",
+            detail="Model response content was empty.",
+        )
+
+    if actual_count < expected_count:
+        return TranslationDiagnostics(
+            expected_count=expected_count,
+            actual_count=actual_count,
+            status="count_mismatch_missing_outputs",
+            detail="Model returned fewer translations than OCR text regions.",
+        )
+
+    if actual_count > expected_count:
+        return TranslationDiagnostics(
+            expected_count=expected_count,
+            actual_count=actual_count,
+            status="count_mismatch_extra_outputs",
+            detail="Model returned more translations than OCR text regions.",
+        )
+
+    return TranslationDiagnostics(
+        expected_count=expected_count,
+        actual_count=actual_count,
+        status="ok",
+        detail=None,
+    )
+
+
+
 def translate_one_image(
     index: int,
     image_path: str,
     ocr_result: list[OCRResult],
     total_images: int,
     system_prompt: str,
-) -> tuple[int, list[TranslationResult]]:
+) -> tuple[int, list[TranslationResult], TranslationDiagnostics]:
     if not ocr_result:
-        message = f"Image {index + 1} has no OCR results, skipping translation: {image_path}"
-        logger.warning(message)
-        problem_logger.warning(message)
-        return index, []
+        diagnostics = build_translation_diagnostics(0, 0, content="")
+        problem_logger.warning(
+            "Image {} has no OCR results, skipping translation: {}",
+            index + 1,
+            image_path,
+        )
+        return index, [], diagnostics
 
     client = openai.OpenAI(api_key="llama.cpp", base_url=LLAMA_BASE_URL)
 
@@ -63,10 +121,18 @@ def translate_one_image(
 
     content = response.choices[0].message.content
     if content is None:
-        message = f"Image {index + 1} translation failed: no content in response: {image_path}"
-        logger.warning(message)
-        problem_logger.warning(message)
-        return index, []
+        diagnostics = build_translation_diagnostics(len(ocr_result), 0, content=None)
+        problem_logger.warning(
+            "Problematic image {}: path={} status={} detail={} expected_translations={} parsed_translations={} ocr_texts={}",
+            index + 1,
+            image_path,
+            diagnostics.status,
+            diagnostics.detail,
+            len(ocr_result),
+            0,
+            [res.text for res in ocr_result],
+        )
+        return index, [], diagnostics
 
     logger.debug("Image {} raw model output: {!r}", index + 1, content)
 
@@ -75,17 +141,18 @@ def translate_one_image(
     ]
     logger.debug("Image {} translations: {}", index + 1, output_lines)
 
-    if len(output_lines) != len(ocr_result):
-        logger.warning(
-            "Image {} translation count mismatch: expected {}, got {}",
-            index + 1,
-            len(ocr_result),
-            len(output_lines),
-        )
+    diagnostics = build_translation_diagnostics(
+        len(ocr_result),
+        len(output_lines),
+        content=content,
+    )
+    if diagnostics.status != "ok":
         problem_logger.warning(
-            "Problematic image {}: path={} expected_translations={} parsed_translations={} ocr_texts={} raw_model_output={!r} parsed_translations_list={}",
+            "Problematic image {}: path={} status={} detail={} expected_translations={} parsed_translations={} ocr_texts={} raw_model_output={!r} parsed_translations_list={}",
             index + 1,
             image_path,
+            diagnostics.status,
+            diagnostics.detail,
             len(ocr_result),
             len(output_lines),
             [res.text for res in ocr_result],
@@ -98,12 +165,12 @@ def translate_one_image(
         for res, translation in zip(ocr_result, output_lines)
     ]
     logger.debug("Image {}: produced {} translation(s)", index + 1, len(translations))
-    return index, translations
+    return index, translations, diagnostics
 
 
 def translate_images(
     image_paths: list[str], ocr_results: list[list[OCRResult]]
-) -> list[list[TranslationResult]]:
+) -> tuple[list[list[TranslationResult]], list[TranslationDiagnostics]]:
     logger.info("Running translation on {} image(s)", len(image_paths))
 
     system_prompt = """
@@ -135,6 +202,7 @@ def translate_images(
     """
 
     translations: list[list[TranslationResult]] = [[] for _ in range(len(image_paths))]
+    diagnostics: list[TranslationDiagnostics | None] = [None for _ in range(len(image_paths))]
     max_workers = min(len(image_paths), MAX_TRANSLATION_CONCURRENCY)
     logger.info("Using translation concurrency {}", max_workers)
 
@@ -152,8 +220,14 @@ def translate_images(
         ]
 
         for future in as_completed(futures):
-            index, image_translations = future.result()
+            index, image_translations, image_diagnostics = future.result()
             translations[index] = image_translations
+            diagnostics[index] = image_diagnostics
 
     logger.info("Translation completed")
-    return translations
+    return translations, [
+        image_diagnostics
+        if image_diagnostics is not None
+        else build_translation_diagnostics(0, 0, content="")
+        for image_diagnostics in diagnostics
+    ]

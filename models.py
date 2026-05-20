@@ -18,3 +18,11 @@ class OCRResult:
 class TranslationResult:
     ocr_result: OCRResult
     translation: str
+
+
+@dataclass
+class TranslationDiagnostics:
+    expected_count: int
+    actual_count: int
+    status: str
+    detail: str | None = None

@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from models import OCRResult, TranslationResult
+from models import OCRResult, TranslationDiagnostics, TranslationResult
 
 type JsonDict = dict[str, Any]
 type BBox = tuple[int, int, int, int]
@@ -119,6 +119,16 @@ def translation_result_to_dict(result: TranslationResult) -> JsonDict:
         "confidence": result.ocr_result.confidence,
         "ocr_text": result.ocr_result.text,
         "translation": result.translation,
+    }
+
+
+
+def translation_diagnostics_to_dict(result: TranslationDiagnostics) -> JsonDict:
+    return {
+        "expected_count": result.expected_count,
+        "actual_count": result.actual_count,
+        "status": result.status,
+        "detail": result.detail,
     }
 
 

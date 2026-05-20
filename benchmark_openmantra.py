@@ -18,6 +18,7 @@ from benchmarking import (
     save_translations_markdown,
     suppress_output,
     timestamp_slug,
+    translation_diagnostics_to_dict,
     translation_result_to_dict,
 )
 from edit_image import draw_ocr_bboxes, draw_translations, remove_ocr_regions
@@ -160,18 +161,20 @@ def main() -> None:
 
     logger.info("Running translation on {} page(s)", len(image_paths))
     translation_start = time.perf_counter()
-    translations = translate_images(image_path_strings, ocr_results)
+    translations, translation_diagnostics = translate_images(image_path_strings, ocr_results)
     stage_timings["translation_seconds"] = time.perf_counter() - translation_start
 
     logger.info("Writing benchmark artifacts to {}", run_dir)
     artifact_start = time.perf_counter()
     pages_payload: list[JsonDict] = []
+    translation_issues_payload: list[JsonDict] = []
 
-    for page_meta, image_ocr_output, image_ocr_results, image_translations in zip(
+    for page_meta, image_ocr_output, image_ocr_results, image_translations, image_translation_diagnostics in zip(
         pages,
         ocr_output,
         ocr_results,
         translations,
+        translation_diagnostics,
         strict=True,
     ):
         page_slug = openmantra_page_slug(
@@ -236,6 +239,9 @@ def main() -> None:
             "translations": [
                 translation_result_to_dict(result) for result in image_translations
             ],
+            "translation_diagnostics": translation_diagnostics_to_dict(
+                image_translation_diagnostics
+            ),
             "artifacts": {
                 key: str(path.relative_to(run_dir))
                 for key, path in output_paths.items()
@@ -247,6 +253,28 @@ def main() -> None:
             },
         }
         pages_payload.append(page_payload)
+
+        if image_translation_diagnostics.status != "ok":
+            translation_issues_payload.append(
+                {
+                    "book_title": page_meta["book_title"],
+                    "page_index": page_meta["page_index"],
+                    "page_slug": page_slug,
+                    "image_path": str(page_meta["image_path"]),
+                    "relative_image_path": page_meta["relative_image_path"],
+                    "translation_diagnostics": translation_diagnostics_to_dict(
+                        image_translation_diagnostics
+                    ),
+                    "artifacts": {
+                        "translation_markdown_path": str(
+                            output_paths["translation_markdown_path"].relative_to(run_dir)
+                        ),
+                        "ocr_markdown_path": str(
+                            output_paths["ocr_markdown_path"].relative_to(run_dir)
+                        ),
+                    },
+                }
+            )
 
     stage_timings["artifact_seconds"] = time.perf_counter() - artifact_start
     stage_timings["total_seconds"] = time.perf_counter() - total_start
@@ -263,8 +291,18 @@ def main() -> None:
     }
     save_json(run_dir / "benchmark_results.json", benchmark_results)
     save_json(run_dir / "stage_timings.json", stage_timings)
+    save_json(run_dir / "translation_issues.json", translation_issues_payload)
+
+    if translation_issues_payload:
+        logger.warning(
+            "Translation produced non-ok diagnostics for {} page(s)",
+            len(translation_issues_payload),
+        )
+    else:
+        logger.info("Translation produced ok diagnostics for all pages")
 
     logger.info("Saved benchmark results to {}", run_dir / "benchmark_results.json")
+    logger.info("Saved translation issues to {}", run_dir / "translation_issues.json")
     logger.info("Saved stage timings to {}", run_dir / "stage_timings.json")
     logger.info(
         "Completed OpenMantra run {} in {:.2f}s",

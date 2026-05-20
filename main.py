@@ -135,8 +135,9 @@ def main() -> None:
     logger.debug("OCR raw output: {}", ocr_output)
     logger.debug("OCR results: {}", ocr_results)
 
-    translations = translate_images(image_path_strings, ocr_results)
+    translations, translation_diagnostics = translate_images(image_path_strings, ocr_results)
     logger.debug("Translations: {}", translations)
+    logger.debug("Translation diagnostics: {}", translation_diagnostics)
 
     for index, (  # pyright: ignore[reportGeneralTypeIssues]
         image_path,
