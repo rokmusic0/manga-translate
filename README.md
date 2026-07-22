@@ -1,5 +1,7 @@
 # ComicTrans
 
+**See [report](report/main.pdf)**.
+
 A local manga translation pipeline that:
 
 1. detects Japanese text regions in manga pages,
